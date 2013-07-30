@@ -1,0 +1,48 @@
+* Coding Style for the CodeTag C# Source Code.
+
+* Coding Considerations and Style.
+
+	In order to keep the code consistent, please use the conventions
+	suggested by the ReSharper <http://www.jetbrains.com/resharper/>.
+
+	Please, provide xml comments for all public classes and methods.
+
+* Unit Tests
+
+	There is a Test directory that holds all the NUnit tests.
+
+* Tagging Buggy Code
+
+	If there is a bug in your implementation tag the problem by using
+	the word "FIXME" in the code, together with a description of the 
+	problem.
+
+	Use "TODO" and { throw new NotImplementedException(); } for 
+	features that are not yet implemented.
+
+* ChangeLogs
+
+	ChangeLog is the file that we use to track the project
+	history.
+
+	The format looks like this:
+
+	2013-07-30  Peter Cerno <petercerno@gmail.com>
+
+		* First version of the CodeTag Application.
+
+	The date, author, email address is in the first line.
+
+	This information must be cut and pasted into your commit
+	message.
+
+* Warnings
+
+	Avoid commiting code with warnings to the repository. The use
+	of #pragmas to disable warnings is strongly discouraged, but
+	can be used on unique cases.
+
+* Conditional Compilation
+
+	Ideally we would not need conditional compilation, and the use
+	of #ifdef is strongly discouraged.
