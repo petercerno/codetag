@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CodeTag.Common;
 using CodeTag.Data;
 
 namespace CodeTag.Core.CodeSnippetSources
@@ -60,11 +61,11 @@ namespace CodeTag.Core.CodeSnippetSources
         {
             var context =
                 new CodeContext(
-                    xmlBlock.Name,
+                    xmlBlock.Name.Strip(),
                     Split(xmlBlock.Tags),
-                    xmlBlock.Syntax,
-                    xmlBlock.Description,
-                    xmlBlock.Prerequisites,
+                    xmlBlock.Syntax.Strip(),
+                    xmlBlock.Description.Strip(),
+                    xmlBlock.Prerequisites.Strip(),
                     parentContext);
 
             if (xmlBlock.CodeSnippets != null && xmlBlock.CodeSnippets.Length > 0)
@@ -80,9 +81,9 @@ namespace CodeTag.Core.CodeSnippetSources
         {
             _codeSnippets.Add(
                 new CodeSnippet(
-                    xmlCode.Code,
+                    xmlCode.Code.Strip(),
                     Split(xmlCode.Tags),
-                    xmlCode.Syntax,
+                    xmlCode.Syntax.Strip(),
                     parentContext));
         }
 

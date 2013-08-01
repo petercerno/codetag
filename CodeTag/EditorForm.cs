@@ -46,9 +46,9 @@ namespace CodeTag
 
             public CodeItem(XmlCode xmlCode)
             {
-                Code = Strip(xmlCode.Code);
-                Tags = Strip(xmlCode.Tags);
-                Syntax = Strip(xmlCode.Syntax);
+                Code = xmlCode.Code.Strip();
+                Tags = xmlCode.Tags.Strip();
+                Syntax = xmlCode.Syntax.Strip();
             }
 
             public string Code;
@@ -72,11 +72,11 @@ namespace CodeTag
 
             public BlockItem(XmlBlock xmlBlock)
             {
-                Name = Strip(xmlBlock.Name);
-                Description = Strip(xmlBlock.Description);
-                Syntax = Strip(xmlBlock.Syntax);
-                Tags = Strip(xmlBlock.Tags);
-                Prerequisites = Strip(xmlBlock.Prerequisites);
+                Name = xmlBlock.Name.Strip();
+                Description = xmlBlock.Description.Strip();
+                Syntax = xmlBlock.Syntax.Strip();
+                Tags = xmlBlock.Tags.Strip();
+                Prerequisites = xmlBlock.Prerequisites.Strip();
             }
 
             public string Name;
@@ -106,11 +106,6 @@ namespace CodeTag
         private string _fileName;
         private bool _isModified;
         private bool _lockLayout;
-
-        private static string Strip(string str)
-        {
-            return string.IsNullOrWhiteSpace(str) ? null : str.Trim();
-        }
 
         private string FileName
         {
@@ -253,11 +248,11 @@ namespace CodeTag
             var blockItem = node.Tag as BlockItem;
             var xmlBlock = new XmlBlock
                 {
-                    Name = Strip(blockItem.Name),
-                    Syntax = Strip(blockItem.Syntax),
-                    Tags = Strip(blockItem.Tags),
-                    Description = Strip(blockItem.Description),
-                    Prerequisites = Strip(blockItem.Prerequisites)
+                    Name = blockItem.Name.Strip(),
+                    Syntax = blockItem.Syntax.Strip(),
+                    Tags = blockItem.Tags.Strip(),
+                    Description = blockItem.Description.Strip(),
+                    Prerequisites = blockItem.Prerequisites.Strip()
                 };
             var xmlCodeList = new List<XmlCode>();
             var xmlBlockList = new List<XmlBlock>();
@@ -269,9 +264,9 @@ namespace CodeTag
                         var childCodeItem = childNode.Tag as CodeItem;
                         xmlCodeList.Add(new XmlCode
                             {
-                                Syntax = Strip(childCodeItem.Syntax),
-                                Tags = Strip(childCodeItem.Tags),
-                                Code = Strip(childCodeItem.Code)
+                                Syntax = childCodeItem.Syntax.Strip(),
+                                Tags = childCodeItem.Tags.Strip(),
+                                Code = childCodeItem.Code.Strip()
                             });
                     }
                     else if (childNode.Tag is BlockItem)
@@ -665,19 +660,19 @@ namespace CodeTag
                 if (selectedNode.Tag is CodeItem)
                 {
                     var codeItem = selectedNode.Tag as CodeItem;
-                    codeItem.Code = Strip(codeTextBox.Text);
-                    codeItem.Syntax = Strip(syntaxTextBox.Text);
-                    codeItem.Tags = Strip(tagsTextBox.Text);
+                    codeItem.Code = codeTextBox.Text.Strip();
+                    codeItem.Syntax = syntaxTextBox.Text.Strip();
+                    codeItem.Tags = tagsTextBox.Text.Strip();
                     selectedNode.Text = codeItem.ToString();
                 }
                 else if (selectedNode.Tag is BlockItem)
                 {
                     var blockItem = selectedNode.Tag as BlockItem;
-                    blockItem.Name = Strip(nameTextBox.Text);
-                    blockItem.Description = Strip(descriptionTextBox.Text);
-                    blockItem.Syntax = Strip(syntaxTextBox.Text);
-                    blockItem.Tags = Strip(tagsTextBox.Text);
-                    blockItem.Prerequisites = Strip(prerequisitesTextBox.Text);
+                    blockItem.Name = nameTextBox.Text.Strip();
+                    blockItem.Description = descriptionTextBox.Text.Strip();
+                    blockItem.Syntax = syntaxTextBox.Text.Strip();
+                    blockItem.Tags = tagsTextBox.Text.Strip();
+                    blockItem.Prerequisites = prerequisitesTextBox.Text.Strip();
                     selectedNode.Text = blockItem.ToString();
                 }
                 LockLayout = false;
