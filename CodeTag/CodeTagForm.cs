@@ -92,7 +92,11 @@ namespace CodeTag
                 {
                     var filteredCodeSnippet = _filteredCodeSnippets[_filteredCodeSnippetIndex];
                     var contextList = filteredCodeSnippet.GetContextList();
-                    codeRichTextBox.Text = filteredCodeSnippet.Code;
+                    codeRichTextBox.Text =
+                        string.Join(Environment.NewLine,
+                                    contextList.Where(c => !string.IsNullOrWhiteSpace(c.Prerequisites))
+                                               .Select(c => c.Prerequisites)) +
+                        Environment.NewLine + Environment.NewLine + filteredCodeSnippet.Code;
                     tagTextBox.Text = string.Join(" ", filteredCodeSnippet.AllTags);
                     statusLabel.Text = string.Format(
                         CultureInfo.InvariantCulture,
