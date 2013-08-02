@@ -1,3 +1,7 @@
+2013-08-02  Peter Cerno <petercerno@gmail.com>
+
+	* Added support for Cut, Copy and Paste + several bug fixes.
+
 2013-08-01  Peter Cerno <petercerno@gmail.com>
 
 	* Fixed Unix line-endings and added sample code snippets for NumPy.
