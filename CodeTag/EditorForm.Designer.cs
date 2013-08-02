@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using CodeTag.Controls;
 using CodeTag.Data;
 
 namespace CodeTag
@@ -64,16 +65,23 @@ namespace CodeTag
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorForm));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.pasteButton = new System.Windows.Forms.Button();
+            this.copyButton = new System.Windows.Forms.Button();
+            this.cutButton = new System.Windows.Forms.Button();
             this.moveDownButton = new System.Windows.Forms.Button();
             this.moveUpButton = new System.Windows.Forms.Button();
             this.removeButton = new System.Windows.Forms.Button();
             this.addBlockButton = new System.Windows.Forms.Button();
             this.addCodeButton = new System.Windows.Forms.Button();
-            this.treeView = new System.Windows.Forms.TreeView();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addBlockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inheritanceSplitContainer = new System.Windows.Forms.SplitContainer();
@@ -101,6 +109,7 @@ namespace CodeTag
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.treeView = new CodeTag.Controls.BufferedTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -121,6 +130,9 @@ namespace CodeTag
             // 
             // splitContainer.Panel1
             // 
+            this.splitContainer.Panel1.Controls.Add(this.pasteButton);
+            this.splitContainer.Panel1.Controls.Add(this.copyButton);
+            this.splitContainer.Panel1.Controls.Add(this.cutButton);
             this.splitContainer.Panel1.Controls.Add(this.moveDownButton);
             this.splitContainer.Panel1.Controls.Add(this.moveUpButton);
             this.splitContainer.Panel1.Controls.Add(this.removeButton);
@@ -141,26 +153,59 @@ namespace CodeTag
             this.splitContainer.Panel2.Controls.Add(this.nameTextBox);
             this.splitContainer.Panel2.Controls.Add(this.nameLabel);
             this.splitContainer.Size = new System.Drawing.Size(884, 538);
-            this.splitContainer.SplitterDistance = 179;
-            this.splitContainer.TabIndex = 0;
+            this.splitContainer.SplitterDistance = 300;
+            this.splitContainer.TabIndex = 1;
+            // 
+            // pasteButton
+            // 
+            this.pasteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pasteButton.Location = new System.Drawing.Point(93, 503);
+            this.pasteButton.Name = "pasteButton";
+            this.pasteButton.Size = new System.Drawing.Size(75, 23);
+            this.pasteButton.TabIndex = 6;
+            this.pasteButton.Text = "Paste";
+            this.pasteButton.UseVisualStyleBackColor = true;
+            this.pasteButton.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // copyButton
+            // 
+            this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.copyButton.Location = new System.Drawing.Point(93, 474);
+            this.copyButton.Name = "copyButton";
+            this.copyButton.Size = new System.Drawing.Size(75, 23);
+            this.copyButton.TabIndex = 5;
+            this.copyButton.Text = "Copy";
+            this.copyButton.UseVisualStyleBackColor = true;
+            this.copyButton.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // cutButton
+            // 
+            this.cutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cutButton.Location = new System.Drawing.Point(93, 445);
+            this.cutButton.Name = "cutButton";
+            this.cutButton.Size = new System.Drawing.Size(75, 23);
+            this.cutButton.TabIndex = 4;
+            this.cutButton.Text = "Cut";
+            this.cutButton.UseVisualStyleBackColor = true;
+            this.cutButton.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // moveDownButton
             // 
             this.moveDownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.moveDownButton.Location = new System.Drawing.Point(93, 474);
+            this.moveDownButton.Location = new System.Drawing.Point(174, 474);
             this.moveDownButton.Name = "moveDownButton";
             this.moveDownButton.Size = new System.Drawing.Size(75, 23);
-            this.moveDownButton.TabIndex = 5;
+            this.moveDownButton.TabIndex = 8;
             this.moveDownButton.Text = "Down";
             this.moveDownButton.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
             // 
             // moveUpButton
             // 
             this.moveUpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.moveUpButton.Location = new System.Drawing.Point(93, 445);
+            this.moveUpButton.Location = new System.Drawing.Point(174, 445);
             this.moveUpButton.Name = "moveUpButton";
             this.moveUpButton.Size = new System.Drawing.Size(75, 23);
-            this.moveUpButton.TabIndex = 4;
+            this.moveUpButton.TabIndex = 7;
             this.moveUpButton.Text = "Up";
             this.moveUpButton.Click += new System.EventHandler(this.moveUpToolStripMenuItem_Click);
             // 
@@ -194,63 +239,90 @@ namespace CodeTag
             this.addCodeButton.Text = "+Code";
             this.addCodeButton.Click += new System.EventHandler(this.addCodeToolStripMenuItem_Click);
             // 
-            // treeView
-            // 
-            this.treeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView.ContextMenuStrip = this.contextMenuStrip;
-            this.treeView.FullRowSelect = true;
-            this.treeView.HideSelection = false;
-            this.treeView.Location = new System.Drawing.Point(12, 3);
-            this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(164, 436);
-            this.treeView.TabIndex = 0;
-            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
-            // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addCodeToolStripMenuItem,
             this.addBlockToolStripMenuItem,
             this.removeToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem,
+            this.toolStripSeparator2,
             this.moveUpToolStripMenuItem,
             this.moveDownToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(139, 114);
+            this.contextMenuStrip.Size = new System.Drawing.Size(204, 214);
             // 
             // addCodeToolStripMenuItem
             // 
             this.addCodeToolStripMenuItem.Name = "addCodeToolStripMenuItem";
-            this.addCodeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.addCodeToolStripMenuItem.Text = "Add &Code";
+            this.addCodeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.addCodeToolStripMenuItem.Text = "Add C&ode";
             this.addCodeToolStripMenuItem.Click += new System.EventHandler(this.addCodeToolStripMenuItem_Click);
             // 
             // addBlockToolStripMenuItem
             // 
             this.addBlockToolStripMenuItem.Name = "addBlockToolStripMenuItem";
-            this.addBlockToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.addBlockToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.addBlockToolStripMenuItem.Text = "Add &Block";
             this.addBlockToolStripMenuItem.Click += new System.EventHandler(this.addBlockToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.removeToolStripMenuItem.Text = "&Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(200, 6);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.cutToolStripMenuItem.Text = "Cu&t";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.copyToolStripMenuItem.Text = "&Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.pasteToolStripMenuItem.Text = "&Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(200, 6);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.moveUpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.moveUpToolStripMenuItem.Text = "Move &Up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.moveUpToolStripMenuItem_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.moveDownToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.moveDownToolStripMenuItem.Text = "Move &Down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
             // 
@@ -274,8 +346,8 @@ namespace CodeTag
             this.inheritanceSplitContainer.Panel2.Controls.Add(this.inheritedTagsTextBox);
             this.inheritanceSplitContainer.Panel2.Controls.Add(this.parentLabel);
             this.inheritanceSplitContainer.Panel2.Controls.Add(this.inheritedPrerequisitesTextBox);
-            this.inheritanceSplitContainer.Size = new System.Drawing.Size(588, 200);
-            this.inheritanceSplitContainer.SplitterDistance = 292;
+            this.inheritanceSplitContainer.Size = new System.Drawing.Size(467, 200);
+            this.inheritanceSplitContainer.SplitterDistance = 231;
             this.inheritanceSplitContainer.TabIndex = 7;
             // 
             // syntaxTextBox
@@ -284,7 +356,7 @@ namespace CodeTag
             | System.Windows.Forms.AnchorStyles.Right)));
             this.syntaxTextBox.Location = new System.Drawing.Point(3, 18);
             this.syntaxTextBox.Name = "syntaxTextBox";
-            this.syntaxTextBox.Size = new System.Drawing.Size(286, 22);
+            this.syntaxTextBox.Size = new System.Drawing.Size(225, 22);
             this.syntaxTextBox.TabIndex = 1;
             this.syntaxTextBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
@@ -294,7 +366,7 @@ namespace CodeTag
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tagsTextBox.Location = new System.Drawing.Point(3, 46);
             this.tagsTextBox.Name = "tagsTextBox";
-            this.tagsTextBox.Size = new System.Drawing.Size(286, 22);
+            this.tagsTextBox.Size = new System.Drawing.Size(225, 22);
             this.tagsTextBox.TabIndex = 2;
             this.tagsTextBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
@@ -307,7 +379,7 @@ namespace CodeTag
             this.prerequisitesTextBox.Multiline = true;
             this.prerequisitesTextBox.Name = "prerequisitesTextBox";
             this.prerequisitesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.prerequisitesTextBox.Size = new System.Drawing.Size(286, 123);
+            this.prerequisitesTextBox.Size = new System.Drawing.Size(225, 123);
             this.prerequisitesTextBox.TabIndex = 3;
             this.prerequisitesTextBox.WordWrap = false;
             this.prerequisitesTextBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -329,7 +401,7 @@ namespace CodeTag
             this.inheritedSyntaxTextBox.Location = new System.Drawing.Point(3, 18);
             this.inheritedSyntaxTextBox.Name = "inheritedSyntaxTextBox";
             this.inheritedSyntaxTextBox.ReadOnly = true;
-            this.inheritedSyntaxTextBox.Size = new System.Drawing.Size(286, 22);
+            this.inheritedSyntaxTextBox.Size = new System.Drawing.Size(226, 22);
             this.inheritedSyntaxTextBox.TabIndex = 1;
             // 
             // inheritedTagsTextBox
@@ -339,7 +411,7 @@ namespace CodeTag
             this.inheritedTagsTextBox.Location = new System.Drawing.Point(3, 46);
             this.inheritedTagsTextBox.Name = "inheritedTagsTextBox";
             this.inheritedTagsTextBox.ReadOnly = true;
-            this.inheritedTagsTextBox.Size = new System.Drawing.Size(286, 22);
+            this.inheritedTagsTextBox.Size = new System.Drawing.Size(226, 22);
             this.inheritedTagsTextBox.TabIndex = 2;
             // 
             // parentLabel
@@ -362,7 +434,7 @@ namespace CodeTag
             this.inheritedPrerequisitesTextBox.Name = "inheritedPrerequisitesTextBox";
             this.inheritedPrerequisitesTextBox.ReadOnly = true;
             this.inheritedPrerequisitesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.inheritedPrerequisitesTextBox.Size = new System.Drawing.Size(286, 123);
+            this.inheritedPrerequisitesTextBox.Size = new System.Drawing.Size(226, 123);
             this.inheritedPrerequisitesTextBox.TabIndex = 3;
             this.inheritedPrerequisitesTextBox.WordWrap = false;
             // 
@@ -375,7 +447,7 @@ namespace CodeTag
             this.codeTextBox.Multiline = true;
             this.codeTextBox.Name = "codeTextBox";
             this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(582, 261);
+            this.codeTextBox.Size = new System.Drawing.Size(461, 261);
             this.codeTextBox.TabIndex = 9;
             this.codeTextBox.WordWrap = false;
             this.codeTextBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
@@ -406,7 +478,7 @@ namespace CodeTag
             | System.Windows.Forms.AnchorStyles.Right)));
             this.descriptionTextBox.Location = new System.Drawing.Point(104, 31);
             this.descriptionTextBox.Name = "descriptionTextBox";
-            this.descriptionTextBox.Size = new System.Drawing.Size(582, 22);
+            this.descriptionTextBox.Size = new System.Drawing.Size(461, 22);
             this.descriptionTextBox.TabIndex = 3;
             this.descriptionTextBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
@@ -446,7 +518,7 @@ namespace CodeTag
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTextBox.Location = new System.Drawing.Point(104, 3);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(582, 22);
+            this.nameTextBox.Size = new System.Drawing.Size(461, 22);
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
@@ -467,7 +539,7 @@ namespace CodeTag
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(884, 24);
-            this.menuStrip.TabIndex = 1;
+            this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
             // fileToolStripMenuItem
@@ -519,6 +591,20 @@ namespace CodeTag
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // treeView
+            // 
+            this.treeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView.ContextMenuStrip = this.contextMenuStrip;
+            this.treeView.FullRowSelect = true;
+            this.treeView.HideSelection = false;
+            this.treeView.Location = new System.Drawing.Point(12, 3);
+            this.treeView.Name = "treeView";
+            this.treeView.Size = new System.Drawing.Size(285, 436);
+            this.treeView.TabIndex = 0;
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -526,6 +612,7 @@ namespace CodeTag
             this.ClientSize = new System.Drawing.Size(884, 562);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuStrip);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -556,7 +643,7 @@ namespace CodeTag
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer;
-        private System.Windows.Forms.TreeView treeView;
+        private BufferedTreeView treeView;
         private System.Windows.Forms.TextBox inheritedSyntaxTextBox;
         private System.Windows.Forms.TextBox syntaxTextBox;
         private System.Windows.Forms.Label tagsLabel;
@@ -593,5 +680,13 @@ namespace CodeTag
         private System.Windows.Forms.TextBox prerequisitesTextBox;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private SplitContainer inheritanceSplitContainer;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem cutToolStripMenuItem;
+        private ToolStripMenuItem copyToolStripMenuItem;
+        private ToolStripMenuItem pasteToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private Button pasteButton;
+        private Button copyButton;
+        private Button cutButton;
     }
 }

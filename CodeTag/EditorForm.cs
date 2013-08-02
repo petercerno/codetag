@@ -260,15 +260,7 @@ namespace CodeTag
             {
                 foreach (TreeNode childNode in node.Nodes)
                     if (childNode.Tag is CodeItem)
-                    {
-                        var childCodeItem = childNode.Tag as CodeItem;
-                        xmlCodeList.Add(new XmlCode
-                            {
-                                Syntax = childCodeItem.Syntax.Strip(),
-                                Tags = childCodeItem.Tags.Strip(),
-                                Code = childCodeItem.Code.Strip()
-                            });
-                    }
+                        xmlCodeList.Add(GetXmlCode(childNode));
                     else if (childNode.Tag is BlockItem)
                         xmlBlockList.Add(GetXmlBlock(childNode));
                 if (xmlCodeList.Count > 0)
@@ -277,6 +269,19 @@ namespace CodeTag
                     xmlBlock.Blocks = xmlBlockList.ToArray();
             }
             return xmlBlock;
+        }
+
+        private static XmlCode GetXmlCode(TreeNode node)
+        {
+            if (!(node.Tag is CodeItem))
+                return null;
+            var codeItem = node.Tag as CodeItem;
+            return new XmlCode
+                {
+                    Syntax = codeItem.Syntax.Strip(),
+                    Tags = codeItem.Tags.Strip(),
+                    Code = codeItem.Code.Strip()
+                };
         }
 
         private DialogResult PromptNewFileName()
@@ -406,12 +411,17 @@ namespace CodeTag
                 inheritedTagsTextBox.Text = GetInheritedTags(selectedNode.Parent);
                 inheritedPrerequisitesTextBox.Text = GetInheritedPrerequisites(selectedNode.Parent);
                 var removeButtonEnabled = selectedNode.Parent != null;
+                var pasteButtonEnabled = Clipboard.ContainsText();
                 var moveUpButtonEnabled = selectedNode.PrevNode != null && selectedNode.PrevNode.Tag != null &&
                                           selectedNode.Tag.GetType() == selectedNode.PrevNode.Tag.GetType();
                 var moveDownButtonEnabled = selectedNode.NextNode != null && selectedNode.NextNode.Tag != null &&
                                             selectedNode.Tag.GetType() == selectedNode.NextNode.Tag.GetType();
                 removeButton.Enabled = removeButtonEnabled;
                 removeToolStripMenuItem.Enabled = removeButtonEnabled;
+                cutButton.Enabled = removeButtonEnabled;
+                cutToolStripMenuItem.Enabled = removeButtonEnabled;
+                pasteButton.Enabled = pasteButtonEnabled;
+                pasteToolStripMenuItem.Enabled = pasteButtonEnabled;
                 moveUpButton.Enabled = moveUpButtonEnabled;
                 moveUpToolStripMenuItem.Enabled = moveUpButtonEnabled;
                 moveDownButton.Enabled = moveDownButtonEnabled;
@@ -504,6 +514,46 @@ namespace CodeTag
             e.Cancel = IsModified && PromptSave() == DialogResult.Cancel;
         }
 
+        private static TreeNode AddNewCodeItem(TreeNode selectedNode, CodeItem codeItem)
+        {
+            if (selectedNode.Tag is CodeItem)
+            {
+                var parentNode = selectedNode.Parent;
+                var selectedIndex = selectedNode.Index;
+                var newNode = parentNode.Nodes.Insert(selectedIndex + 1, codeItem.ToString());
+                newNode.Tag = codeItem;
+                return newNode;
+            }
+            if (selectedNode.Tag is BlockItem)
+            {
+                int index;
+                for (index = 0; index < selectedNode.Nodes.Count; ++index)
+                    if (selectedNode.Nodes[index].Tag is BlockItem) break;
+                var newNode = selectedNode.Nodes.Insert(index, codeItem.ToString());
+                newNode.Tag = codeItem;
+                return newNode;
+            }
+            return null;
+        }
+
+        private static TreeNode AddNewBlockItem(TreeNode selectedNode, BlockItem blockItem)
+        {
+            if (selectedNode.Tag is CodeItem)
+            {
+                var parentNode = selectedNode.Parent;
+                var newNode = parentNode.Nodes.Add(blockItem.ToString());
+                newNode.Tag = blockItem;
+                return newNode;
+            }
+            if (selectedNode.Tag is BlockItem)
+            {
+                var newNode = selectedNode.Nodes.Add(blockItem.ToString());
+                newNode.Tag = blockItem;
+                return newNode;
+            }
+            return null;
+        }
+
         private void addCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -512,24 +562,8 @@ namespace CodeTag
                 if (selectedNode == null) return;
                 LockLayout = true;
                 IsModified = true;
-                var codeItem = new CodeItem();
-                if (selectedNode.Tag is CodeItem)
-                {
-                    var parentNode = selectedNode.Parent;
-                    var selectedIndex = selectedNode.Index;
-                    var newNode = parentNode.Nodes.Insert(selectedIndex + 1, codeItem.ToString());
-                    newNode.Tag = codeItem;
-                    treeView.SelectedNode = newNode;
-                }
-                else if (selectedNode.Tag is BlockItem)
-                {
-                    int index;
-                    for (index = 0; index < selectedNode.Nodes.Count; ++index)
-                        if (selectedNode.Nodes[index].Tag is BlockItem) break;
-                    var newNode = selectedNode.Nodes.Insert(index, codeItem.ToString());
-                    newNode.Tag = codeItem;
-                    treeView.SelectedNode = newNode;
-                }
+                treeView.SelectedNode = AddNewCodeItem(
+                    selectedNode, new CodeItem());
                 LockLayout = false;
             }
             catch (Exception exception)
@@ -546,23 +580,12 @@ namespace CodeTag
                 if (selectedNode == null) return;
                 LockLayout = true;
                 IsModified = true;
-                var blockItem = new BlockItem
-                {
-                    Name = NewBlockName
-                };
-                if (selectedNode.Tag is CodeItem)
-                {
-                    var parentNode = selectedNode.Parent;
-                    var newNode = parentNode.Nodes.Add(blockItem.ToString());
-                    newNode.Tag = blockItem;
-                    treeView.SelectedNode = newNode;
-                }
-                else if (selectedNode.Tag is BlockItem)
-                {
-                    var newNode = selectedNode.Nodes.Add(blockItem.ToString());
-                    newNode.Tag = blockItem;
-                    treeView.SelectedNode = newNode;
-                }
+                treeView.SelectedNode = AddNewBlockItem(
+                    selectedNode,
+                    new BlockItem
+                        {
+                            Name = NewBlockName
+                        });
                 LockLayout = false;
             }
             catch (Exception exception)
@@ -589,6 +612,124 @@ namespace CodeTag
                     treeView.SelectedNode = selectNode;
                 }
                 // ReSharper restore LocalizableElement
+                LockLayout = false;
+            }
+            catch (Exception exception)
+            {
+                ErrorReport.Report(exception);
+            }
+        }
+
+        private static void CopyNode(TreeNode node)
+        {
+            if (node.Tag is CodeItem)
+            {
+                var xmlCode = GetXmlCode(node);
+                if (xmlCode != null)
+                    Clipboard.SetText(XmlHelper.SerializeToString(xmlCode, true));
+                else Clipboard.Clear();
+            }
+            else if (node.Tag is BlockItem)
+            {
+                var xmlBlock = GetXmlBlock(node);
+                if (xmlBlock != null)
+                    Clipboard.SetText(XmlHelper.SerializeToString(xmlBlock, true));
+                else Clipboard.Clear();
+            }
+        }
+
+        private static XmlCode TryPasteXmlCode()
+        {
+            if (!Clipboard.ContainsText()) return null;
+            var clipboardText = Clipboard.GetText();
+            try
+            {
+                return XmlHelper.DeserializeFromString<XmlCode>(clipboardText);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private static XmlBlock TryPasteXmlBlock()
+        {
+            if (!Clipboard.ContainsText()) return null;
+            var clipboardText = Clipboard.GetText();
+            try
+            {
+                return XmlHelper.DeserializeFromString<XmlBlock>(clipboardText);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var selectedNode = treeView.SelectedNode;
+                if (selectedNode == null) return;
+                LockLayout = true;
+                IsModified = true;
+                CopyNode(selectedNode);
+                var selectNode = selectedNode.NextNode ?? selectedNode.PrevNode ?? selectedNode.Parent;
+                treeView.Nodes.Remove(selectedNode);
+                treeView.SelectedNode = selectNode;
+                LockLayout = false;
+            }
+            catch (Exception exception)
+            {
+                ErrorReport.Report(exception);
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var selectedNode = treeView.SelectedNode;
+                if (selectedNode == null) return;
+                CopyNode(selectedNode);
+            }
+            catch (Exception exception)
+            {
+                ErrorReport.Report(exception);
+            }
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!Clipboard.ContainsText()) return;
+                var selectedNode = treeView.SelectedNode;
+                if (selectedNode == null) return;
+                LockLayout = true;
+                IsModified = true;
+                var xmlCode = TryPasteXmlCode();
+                if (xmlCode != null)
+                    treeView.SelectedNode = AddNewCodeItem(
+                        selectedNode, new CodeItem(xmlCode));
+                else
+                {
+                    var xmlBlock = TryPasteXmlBlock();
+                    if (xmlBlock != null)
+                    {
+                        var newNode = AddNewBlockItem(
+                            selectedNode, new BlockItem(xmlBlock));
+                        BuildFromXmlBlock(newNode, xmlBlock);
+                        treeView.SelectedNode = newNode;
+                    }
+                    else
+                    {
+                        // ReSharper disable LocalizableElement
+                        MessageBox.Show("Unable to deserialize the clipboard content.");
+                        // ReSharper restore LocalizableElement
+                    }
+                }
                 LockLayout = false;
             }
             catch (Exception exception)

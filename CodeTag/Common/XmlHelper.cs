@@ -42,8 +42,10 @@ namespace CodeTag.Common
         /// </summary>
         /// <typeparam name="T">Type of the object.</typeparam>
         /// <param name="value">Object to be serialized.</param>
+        /// <param name="indent">Value indicating whether to indent elements. The default is false.</param>
+        /// <param name="omitXmlDeclaration">Value indicating whether to omit an XML declaration. The default is false.</param>
         /// <returns>Xml representation of the object.</returns>
-        public static string SerializeToString<T>(T value) where T : class
+        public static string SerializeToString<T>(T value, bool indent = false, bool omitXmlDeclaration = false) where T : class
         {
             if (value == null)
                 return null;
@@ -51,8 +53,8 @@ namespace CodeTag.Common
             var settings = new XmlWriterSettings
                 {
                     Encoding = new UnicodeEncoding(false, false),
-                    Indent = false,
-                    OmitXmlDeclaration = false                    
+                    Indent = indent,
+                    OmitXmlDeclaration = omitXmlDeclaration                    
                 };
 
             using (var textWriter = new StringWriter())
