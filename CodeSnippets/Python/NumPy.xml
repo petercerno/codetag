@@ -20,23 +20,23 @@ data
 
 # array([[ 0.1,  0.2,  0.3],
 #        [ 0.4,  0.5,  0.6]])]]></code>
-      <code tags="add addition scalar constant"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+      <code tags="add addition plus scalar constant"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
 data + 1
 
 # array([[ 1.1,  1.2,  1.3],
 #        [ 1.4,  1.5,  1.6]])]]></code>
-      <code tags="add addition"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+      <code tags="add addition plus"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
 data + data
 
 # array([[ 0.2,  0.4,  0.6],
 #        [ 0.8,  1. ,  1.2]])]]></code>
-      <code tags="add addition broadcasting row"><![CDATA[data1 = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+      <code tags="add addition plus broadcasting row"><![CDATA[data1 = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
 data2 = array([1., 2., 3.])
 data1 + data2
 
 # array([[ 1.1,  2.2,  3.3],
 #        [ 1.4,  2.5,  3.6]])]]></code>
-      <code tags="add addition broadcasting col column"><![CDATA[data1 = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+      <code tags="add addition plus broadcasting col column"><![CDATA[data1 = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
 data2 = array([[1.], [2.]])
 data1 + data2
 
@@ -50,75 +50,6 @@ data.ndim
 data.shape
 
 # (2L, 3L)]]></code>
-      <code tags="dtype type int int32"><![CDATA[data = array([1, 2, 3])
-data.dtype
-
-# dtype('int32')]]></code>
-      <code tags="dtype type int int64"><![CDATA[data = array([[1, 2, 3], [4, 5, 6]], dtype=int64)
-data.dtype
-
-# dtype('int64')]]></code>
-      <code tags="dtype type float float64"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
-data.dtype
-
-# dtype('float64')]]></code>
-      <code tags="dtype type float float64"><![CDATA[data = array([1, 2, 3], dtype=float64)
-data.dtype
-
-# dtype('float64')]]></code>
-      <code tags="dtype type int integer signed"><![CDATA[# Type
-data = array([1, 2, 3], dtype=int8)   # Signed 8-bit (1 byte) integer type
-data = array([1, 2, 3], dtype=int16)  # Signed 16-bit integer type
-data = array([1, 2, 3], dtype=int32)  # Signed 32-bit integer type
-data = array([1, 2, 3], dtype=int64)  # Signed 64-bit integer type
-
-# Type Code
-data = array([1, 2, 3], dtype='i1')   # Signed 8-bit (1 byte) integer type
-data = array([1, 2, 3], dtype='i2')   # Signed 16-bit integer type
-data = array([1, 2, 3], dtype='i4')   # Signed 32-bit integer type
-data = array([1, 2, 3], dtype='i8')   # Signed 64-bit integer type]]></code>
-      <code tags="dtype type uint integer unsigned"><![CDATA[# Type
-data = array([1, 2, 3], dtype=uint8)  # Unsigned 8-bit (1 byte) integer type
-data = array([1, 2, 3], dtype=uint16) # Unsigned 16-bit integer type
-data = array([1, 2, 3], dtype=uint32) # Unsigned 32-bit integer type
-data = array([1, 2, 3], dtype=uint64) # Unsigned 64-bit integer type
-
-# Type Code
-data = array([1, 2, 3], dtype='u1')   # Unsigned 8-bit (1 byte) integer type
-data = array([1, 2, 3], dtype='u2')   # Unsigned 16-bit integer type
-data = array([1, 2, 3], dtype='u4')   # Unsigned 32-bit integer type
-data = array([1, 2, 3], dtype='u8')   # Unsigned 64-bit integer type]]></code>
-      <code tags="dtype type float double precision"><![CDATA[# Type
-data = array([1, 2, 3], dtype=float16)  # Half-precision floating point
-data = array([1, 2, 3], dtype=float32)  # Standard single-precision floating point. Compatible with C float
-data = array([1, 2, 3], dtype=float64)  # Standard double-precision floating point. Compatible with C double and Python float object
-data = array([1, 2, 3], dtype=float128) # Extended-precision floating point
-
-# Type Code
-data = array([1, 2, 3], dtype='f2')  # Half-precision floating point
-data = array([1, 2, 3], dtype='f4')  # Standard single-precision floating point. Compatible with C float
-data = array([1, 2, 3], dtype='f')   # Standard single-precision floating point. Compatible with C float
-data = array([1, 2, 3], dtype='f8')  # Standard double-precision floating point. Compatible with C double and Python float object
-data = array([1, 2, 3], dtype='d')   # Standard double-precision floating point. Compatible with C double and Python float object
-data = array([1, 2, 3], dtype='f16') # Extended-precision floating point
-data = array([1, 2, 3], dtype='g')   # Extended-precision floating point]]></code>
-      <code tags="dtype type complex"><![CDATA[# Type
-data = array([1, 2, 3], dtype=complex64)  # Standard single-precision complex number
-data = array([1, 2, 3], dtype=complex128) # Standard double-precision complex number
-data = array([1, 2, 3], dtype=complex256) # Extended-precision complex number
-
-# Type Code
-data = array([1, 2, 3], dtype='c8')       # Standard single-precision complex number
-data = array([1, 2, 3], dtype='c16')      # Standard double-precision complex number
-data = array([1, 2, 3], dtype='c32')      # Extended-precision complex number]]></code>
-      <code tags="dtype type bool boolean true false"><![CDATA[data = array([True, True, False], dtype=bool) # Boolean type storing True and False values
-data = array([True, True, False], dtype='?')  # Boolean type storing True and False values]]></code>
-      <code tags="dtype type object"><![CDATA[data = array(['Hello', 1, 0.5], dtype=object) # Python object type
-data = array(['Hello', 1, 0.5], dtype='O')    # Python object type]]></code>
-      <code tags="dtype type string"><![CDATA[data = array(['Hello', 'NumPy'], dtype=string_) # Fixed-length string type (1 byte per character)
-data = array(['Hello', 'NumPy'], dtype='S5')    # To create a string dtype with length 10, use 'S10']]></code>
-      <code tags="dtype type unicode string"><![CDATA[data = array(['Hello', 'NumPy'], dtype=unicode_) # Fixed-length unicode type (number of bytes platform specific)
-data = array(['Hello', 'NumPy'], dtype='U5')     # To create a unicode string dtype with length 10, use 'U10']]></code>
       <code tags="arange range sequence"><![CDATA[arange(10)
 
 # array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]]></code>
@@ -212,6 +143,152 @@ float_data = data.astype(float64)
 float_data
 
 # array([ 1.6, -2.5,  3.2,  0.1])]]></code>
+      <block name="Data Types" tags="dtype type">
+        <code tags="int int32"><![CDATA[data = array([1, 2, 3])
+data.dtype
+
+# dtype('int32')]]></code>
+        <code tags="int int64"><![CDATA[data = array([[1, 2, 3], [4, 5, 6]], dtype=int64)
+data.dtype
+
+# dtype('int64')]]></code>
+        <code tags="float float64"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+data.dtype
+
+# dtype('float64')]]></code>
+        <code tags="float float64"><![CDATA[data = array([1, 2, 3], dtype=float64)
+data.dtype
+
+# dtype('float64')]]></code>
+        <code tags="int integer signed"><![CDATA[# Type
+data = array([1, 2, 3], dtype=int8)   # Signed 8-bit (1 byte) integer type
+data = array([1, 2, 3], dtype=int16)  # Signed 16-bit integer type
+data = array([1, 2, 3], dtype=int32)  # Signed 32-bit integer type
+data = array([1, 2, 3], dtype=int64)  # Signed 64-bit integer type
+
+# Type Code
+data = array([1, 2, 3], dtype='i1')   # Signed 8-bit (1 byte) integer type
+data = array([1, 2, 3], dtype='i2')   # Signed 16-bit integer type
+data = array([1, 2, 3], dtype='i4')   # Signed 32-bit integer type
+data = array([1, 2, 3], dtype='i8')   # Signed 64-bit integer type]]></code>
+        <code tags="uint integer unsigned"><![CDATA[# Type
+data = array([1, 2, 3], dtype=uint8)  # Unsigned 8-bit (1 byte) integer type
+data = array([1, 2, 3], dtype=uint16) # Unsigned 16-bit integer type
+data = array([1, 2, 3], dtype=uint32) # Unsigned 32-bit integer type
+data = array([1, 2, 3], dtype=uint64) # Unsigned 64-bit integer type
+
+# Type Code
+data = array([1, 2, 3], dtype='u1')   # Unsigned 8-bit (1 byte) integer type
+data = array([1, 2, 3], dtype='u2')   # Unsigned 16-bit integer type
+data = array([1, 2, 3], dtype='u4')   # Unsigned 32-bit integer type
+data = array([1, 2, 3], dtype='u8')   # Unsigned 64-bit integer type]]></code>
+        <code tags="float double precision"><![CDATA[# Type
+data = array([1, 2, 3], dtype=float16)  # Half-precision floating point
+data = array([1, 2, 3], dtype=float32)  # Standard single-precision floating point. Compatible with C float
+data = array([1, 2, 3], dtype=float64)  # Standard double-precision floating point. Compatible with C double and Python float object
+data = array([1, 2, 3], dtype=float128) # Extended-precision floating point
+
+# Type Code
+data = array([1, 2, 3], dtype='f2')  # Half-precision floating point
+data = array([1, 2, 3], dtype='f4')  # Standard single-precision floating point. Compatible with C float
+data = array([1, 2, 3], dtype='f')   # Standard single-precision floating point. Compatible with C float
+data = array([1, 2, 3], dtype='f8')  # Standard double-precision floating point. Compatible with C double and Python float object
+data = array([1, 2, 3], dtype='d')   # Standard double-precision floating point. Compatible with C double and Python float object
+data = array([1, 2, 3], dtype='f16') # Extended-precision floating point
+data = array([1, 2, 3], dtype='g')   # Extended-precision floating point]]></code>
+        <code tags="complex"><![CDATA[# Type
+data = array([1, 2, 3], dtype=complex64)  # Standard single-precision complex number
+data = array([1, 2, 3], dtype=complex128) # Standard double-precision complex number
+data = array([1, 2, 3], dtype=complex256) # Extended-precision complex number
+
+# Type Code
+data = array([1, 2, 3], dtype='c8')       # Standard single-precision complex number
+data = array([1, 2, 3], dtype='c16')      # Standard double-precision complex number
+data = array([1, 2, 3], dtype='c32')      # Extended-precision complex number]]></code>
+        <code tags="bool boolean true false"><![CDATA[data = array([True, True, False], dtype=bool) # Boolean type storing True and False values
+data = array([True, True, False], dtype='?')  # Boolean type storing True and False values]]></code>
+        <code tags="object"><![CDATA[data = array(['Hello', 1, 0.5], dtype=object) # Python object type
+data = array(['Hello', 1, 0.5], dtype='O')    # Python object type]]></code>
+        <code tags="string"><![CDATA[data = array(['Hello', 'NumPy'], dtype=string_) # Fixed-length string type (1 byte per character)
+data = array(['Hello', 'NumPy'], dtype='S5')    # To create a string dtype with length 10, use 'S10']]></code>
+        <code tags="unicode string"><![CDATA[data = array(['Hello', 'NumPy'], dtype=unicode_) # Fixed-length unicode type (number of bytes platform specific)
+data = array(['Hello', 'NumPy'], dtype='U5')     # To create a unicode string dtype with length 10, use 'U10']]></code>
+      </block>
+      <block name="Operations" tags="operation scalar elementwise">
+        <prerequisites><![CDATA[data = array([[1., 2., 3.], [4., 5., 6.]])]]></prerequisites>
+        <code tags="add addition plus"><![CDATA[data + data
+
+# array([[  2.,   4.,   6.],
+#        [  8.,  10.,  12.]])]]></code>
+        <code tags="add addition plus scalar"><![CDATA[data + 1
+
+# array([[ 2.,  3.,  4.],
+#        [ 5.,  6.,  7.]])]]></code>
+        <code tags="minus sub substraction"><![CDATA[data - data
+
+# array([[ 0.,  0.,  0.],
+#        [ 0.,  0.,  0.]])]]></code>
+        <code tags="minus sub substraction scalar"><![CDATA[data - 1
+
+# array([[ 0.,  1.,  2.],
+#        [ 3.,  4.,  5.]])]]></code>
+        <code tags="prod product mul multiplication"><![CDATA[data * data
+
+# array([[  1.,   4.,   9.],
+#        [ 16.,  25.,  36.]])]]></code>
+        <code tags="prod product mul multiplication scalar"><![CDATA[data * 2
+
+# array([[  2.,   4.,   6.],
+#        [  8.,  10.,  12.]])]]></code>
+        <code tags="div division"><![CDATA[data / data
+
+# array([[ 1.,  1.,  1.],
+#        [ 1.,  1.,  1.]])]]></code>
+        <code tags="div division scalar"><![CDATA[1 / data
+
+# array([[ 1.        ,  0.5       ,  0.33333333],
+#        [ 0.25      ,  0.2       ,  0.16666667]])]]></code>
+        <code tags="exp exponentiation scalar"><![CDATA[data ** 0.5
+
+# array([[ 1.        ,  1.41421356,  1.73205081],
+#        [ 2.        ,  2.23606798,  2.44948974]])]]></code>
+      </block>
+      <block name="Indexing and Slicing">
+        <prerequisites><![CDATA[# Array slices are views on the original array. This means that 
+# the modifications to the view will be reflected in the source.]]></prerequisites>
+        <block name="Simple" tags="1d one dim dimensional">
+          <prerequisites><![CDATA[data = arange(10)
+data
+# array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]]></prerequisites>
+          <code tags="index"><![CDATA[data[3]
+
+# 3]]></code>
+          <code tags="index assign"><![CDATA[data[3] = 10
+data
+
+# array([ 0,  1,  2, 10,  4,  5,  6,  7,  8,  9])]]></code>
+          <code tags="slice"><![CDATA[data[4:7]
+
+# array([4, 5, 6])]]></code>
+          <code tags="slice assign"><![CDATA[data[4:7] = 10
+data
+
+# array([ 0,  1,  2,  3, 10, 10, 10,  7,  8,  9])]]></code>
+          <code tags="slice assign"><![CDATA[data[:] = 10
+data
+
+# array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10])]]></code>
+          <code tags="slice assign"><![CDATA[data_slice = data[4:7]
+data_slice
+
+# array([4, 5, 6])
+
+data_slice[0:2] = 10
+data
+
+# array([ 0,  1,  2,  3, 10, 10,  6,  7,  8,  9])]]></code>
+        </block>
+      </block>
     </block>
   </block>
 </block>
