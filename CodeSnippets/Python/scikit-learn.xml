@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+<block name="Python" syntax="python" tags="python">
+  <description>http://python.org/</description>
+  <block name="scikit-learn" tags="scikit learn sklearn">
+    <description>http://scikit-learn.org/stable/</description>
+    <block name="1. Installing scikit-learn">
+      <description>http://scikit-learn.org/stable/install.html</description>
+    </block>
+    <block name="2. Tutorials">
+      <description>http://scikit-learn.org/stable/tutorial/index.html</description>
+      <block name="1.1. An introduction to machine learning with scikit-learn" tags="load example dataset">
+        <description>http://scikit-learn.org/stable/tutorial/basic/tutorial.html</description>
+        <prerequisites><![CDATA[from sklearn import datasets
+iris = datasets.load_iris()
+digits = datasets.load_digits()]]></prerequisites>
+        <code tags="input training data samples features digits"><![CDATA[print digits.data  
+# [[  0.   0.   5. ...,   0.   0.   0.]
+#  [  0.   0.   0. ...,  10.   0.   0.]
+#  [  0.   0.   0. ...,  16.   9.   0.]
+#  ...,
+#  [  0.   0.   1. ...,   6.   0.   0.]
+#  [  0.   0.   2. ...,  12.   0.   0.]
+#  [  0.   0.  10. ...,  12.   1.   0.]]]]></code>
+        <code tags="target digits"><![CDATA[digits.target
+# array([0, 1, 2, ..., 8, 9, 8])]]></code>
+        <code tags="learn fit predict svm digits"><![CDATA[clf = svm.SVC(gamma=0.001, C=100.)
+
+clf.fit(digits.data[:-1], digits.target[:-1])  
+# SVC(C=100.0, cache_size=200, class_weight=None, coef0=0.0, degree=3,
+#   gamma=0.001, kernel='rbf', max_iter=-1, probability=False, shrinking=True,
+#   tol=0.001, verbose=False)
+
+clf.predict(digits.data[-1])
+# array([8])]]></code>
+        <code tags="model persistence pickle save dumps loads svm iris"><![CDATA[from sklearn import svm
+clf = svm.SVC()
+
+X, y = iris.data, iris.target
+clf.fit(X, y)  
+# SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0, degree=3, gamma=0.0,
+#   kernel='rbf', max_iter=-1, probability=False, shrinking=True, tol=0.001,
+#   verbose=False)
+
+import pickle
+s = pickle.dumps(clf)
+
+clf2 = pickle.loads(s)
+clf2.predict(X[0])
+# array([0])
+
+y[0]
+# 0]]></code>
+      </block>
+      <block name="2.2. A tutorial on statistical-learning for scientific data processing" tags="fit predict">
+        <description>http://scikit-learn.org/stable/tutorial/statistical_inference/index.html</description>
+        <prerequisites><![CDATA[from numpy import *
+from sklearn import datasets]]></prerequisites>
+        <block name="2.2.1. Statistical learning: the setting and the estimator object in the scikit-learn">
+          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/settings.html</description>
+          <code tags="iris dataset"><![CDATA[from sklearn import datasets
+iris = datasets.load_iris()
+data = iris.data
+data.shape
+# (150, 4)]]></code>
+          <code tags="digits dataset image show imshow"><![CDATA[digits = datasets.load_digits()
+digits.images.shape
+# (1797, 8, 8)
+
+import pylab as pl
+pl.imshow(digits.images[-1], cmap=pl.cm.gray_r)]]></code>
+        </block>
+        <block name="2.2.2. Supervised learning: predicting an output variable from high-dimensional observations">
+          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/supervised_learning.html</description>
+          <block name="Classification" tags="classification iris">
+            <prerequisites><![CDATA[iris = datasets.load_iris()
+iris_X = iris.data
+iris_y = iris.target
+
+unique(iris_y)
+# array([0, 1, 2])
+
+# Split iris data in train and test data
+# A random permutation, to split the data randomly
+random.seed(0)
+indices = random.permutation(len(iris_X))
+iris_X_train = iris_X[indices[:-10]]
+iris_y_train = iris_y[indices[:-10]]
+iris_X_test  = iris_X[indices[-10:]]
+iris_y_test  = iris_y[indices[-10:]]]]></prerequisites>
+            <code tags="nearest neighbors iris"><![CDATA[# Create and fit a nearest-neighbor classifier
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier()
+knn.fit(iris_X_train, iris_y_train)
+# KNeighborsClassifier(algorithm='auto', leaf_size=30, n_neighbors=5, p=2,
+#            warn_on_equidistant=True, weights='uniform')
+
+knn.predict(iris_X_test)
+# array([1, 2, 1, 0, 0, 0, 2, 1, 2, 0])
+
+iris_y_test
+# array([1, 1, 1, 0, 0, 0, 2, 1, 2, 0])]]></code>
+            <code tags="logistic regression iris"><![CDATA[# Create and fit a logistic regression
+from sklearn import linear_model
+logistic = linear_model.LogisticRegression(C=1e5)
+logistic.fit(iris_X_train, iris_y_train)
+# LogisticRegression(C=100000.0, class_weight=None, dual=False,
+#           fit_intercept=True, intercept_scaling=1, penalty='l2',
+#           random_state=None, tol=0.0001)]]></code>
+            <code tags="support vector machine svm linear"><![CDATA[# Create and fit a linear svm
+from sklearn import svm
+svc = svm.SVC(kernel='linear')
+svc.fit(iris_X_train, iris_y_train)
+# SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0, degree=3, gamma=0.0,
+#   kernel='linear', max_iter=-1, probability=False, shrinking=True, tol=0.001,
+#   verbose=False]]></code>
+          </block>
+          <block name="Regression" tags="regression">
+            <code tags="linear noise high variance"><![CDATA[X = c_[ .5, 1].T
+y = [.5, 1]
+test = c_[ 0, 2].T
+regr = linear_model.LinearRegression()
+
+import pylab as pl
+pl.figure()
+
+random.seed(0)
+for _ in range(6):
+    this_X = .1*random.normal(size=(2, 1)) + X
+    regr.fit(this_X, y)
+    pl.plot(test, regr.predict(test))
+    pl.scatter(this_X, y, s=3)]]></code>
+            <code tags="ridge shrink"><![CDATA[X = c_[ .5, 1].T
+y = [.5, 1]
+test = c_[ 0, 2].T
+regr = linear_model.Ridge(alpha=.1)
+
+import pylab as pl
+pl.figure()
+
+random.seed(0)
+for _ in range(6):
+    this_X = .1*random.normal(size=(2, 1)) + X
+    regr.fit(this_X, y)
+    pl.plot(test, regr.predict(test))
+    pl.scatter(this_X, y, s=3)]]></code>
+          </block>
+          <block name="Regression" tags="regression diabetes">
+            <prerequisites><![CDATA[diabetes = datasets.load_diabetes()
+diabetes_X_train = diabetes.data[:-20]
+diabetes_X_test  = diabetes.data[-20:]
+diabetes_y_train = diabetes.target[:-20]
+diabetes_y_test  = diabetes.target[-20:]
+
+from sklearn import linear_model]]></prerequisites>
+            <code tags="linear"><![CDATA[regr = linear_model.LinearRegression()
+
+regr.fit(diabetes_X_train, diabetes_y_train)
+# LinearRegression(copy_X=True, fit_intercept=True, normalize=False)
+
+print regr.coef_
+# [   0.30349955 -237.63931533  510.53060544  327.73698041 -814.13170937
+#   492.81458798  102.84845219  184.60648906  743.51961675   76.09517222]
+
+# The mean square error
+mean((regr.predict(diabetes_X_test)-diabetes_y_test)**2)
+# 2004.56760268...
+
+# Explained variance score: 1 is perfect prediction
+# and 0 means that there is no linear relationship
+# between X and Y.
+regr.score(diabetes_X_test, diabetes_y_test) 
+# 0.58507530226905724]]></code>
+            <code tags="lasso least absolute shrinkage and selection operator sparse method"><![CDATA[regr = linear_model.Lasso()
+
+alphas = logspace(-4, -1, 6)
+scores = [regr.set_params(alpha=alpha
+    ).fit(diabetes_X_train, diabetes_y_train
+    ).score(diabetes_X_test, diabetes_y_test)
+    for alpha in alphas]
+
+best_alpha = alphas[scores.index(max(scores))]
+regr.alpha = best_alpha
+regr.fit(diabetes_X_train, diabetes_y_train)
+# Lasso(alpha=0.025118864315095794, copy_X=True, fit_intercept=True,
+#    max_iter=1000, normalize=False, positive=False, precompute='auto',
+#    tol=0.0001, warm_start=False)
+
+print regr.coef_
+# [   0.         -212.43764548  517.19478111  313.77959962 -160.8303982    -0.
+#  -187.19554705   69.38229038  508.66011217   71.84239008]]]></code>
+          </block>
+        </block>
+        <block name="2.2.3. Model selection: choosing estimators and their parameters" tags="support vector machine svm linear digits">
+          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/model_selection.html</description>
+          <prerequisites><![CDATA[digits = datasets.load_digits()
+X_digits = digits.data
+y_digits = digits.target
+from sklearn import svm
+svc = svm.SVC(C=1, kernel='linear')]]></prerequisites>
+          <code tags="score"><![CDATA[svc.fit(X_digits[:-100], y_digits[:-100]).score(X_digits[-100:], y_digits[-100:])
+# 0.97999999999999998]]></code>
+          <code tags="k fold cross validation split train test scores"><![CDATA[X_folds = array_split(X_digits, 3)
+y_folds = array_split(y_digits, 3)
+scores = list()
+for k in range(3):
+    # We use 'list' to copy, in order to 'pop' later on
+    X_train = list(X_folds)
+    X_test  = X_train.pop(k)
+    X_train = concatenate(X_train)
+    y_train = list(y_folds)
+    y_test  = y_train.pop(k)
+    y_train = concatenate(y_train)
+    scores.append(svc.fit(X_train, y_train).score(X_test, y_test))
+print scores
+# [0.93489148580968284, 0.95659432387312182, 0.93989983305509184]]]></code>
+          <code tags="k fold cross validation generator KFold train test indices"><![CDATA[from sklearn import cross_validation
+k_fold = cross_validation.KFold(n=6, n_folds=3, indices=True)
+for train_indices, test_indices in k_fold:
+    print 'Train: %s | test: %s' % (train_indices, test_indices)
+# Train: [2 3 4 5] | test: [0 1]
+# Train: [0 1 4 5] | test: [2 3]
+# Train: [0 1 2 3] | test: [4 5]]]></code>
+          <code tags="k fold cross validation generator KFold train test indices scores"><![CDATA[from sklearn import cross_validation
+kfold = cross_validation.KFold(len(X_digits), n_folds=3)
+[svc.fit(X_digits[train], y_digits[train]).score(X_digits[test], y_digits[test])
+    for train, test in kfold]
+# [0.93489148580968284, 0.95659432387312182, 0.93989983305509184]]]></code>
+          <code tags="k fold cross validation generator KFold score cross_val_score"><![CDATA[from sklearn import cross_validation
+cross_validation.cross_val_score(svc, X_digits, y_digits, cv=kfold, n_jobs=-1) # On all CPUs
+# array([ 0.93489149,  0.95659432,  0.93989983])]]></code>
+          <code tags="grid search GridSearchCV best score estimator"><![CDATA[from sklearn.grid_search import GridSearchCV
+gammas = np.logspace(-6, -1, 10)
+clf = GridSearchCV(estimator=svc, param_grid=dict(gamma=gammas), n_jobs=-1)
+clf.fit(X_digits[:1000], y_digits[:1000]) 
+# GridSearchCV(cv=None,...
+
+clf.best_score_
+# 0.988991985997974
+
+clf.best_estimator_.gamma
+# 9.9999999999999995e-07
+
+# Prediction performance on test set is not as good as on train set
+clf.score(X_digits[1000:], y_digits[1000:])
+# 0.94228356336260977]]></code>
+        </block>
+        <block name="2.2.4. Unsupervised learning: seeking representations of the data">
+          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/unsupervised_learning.html</description>
+        </block>
+      </block>
+    </block>
+    <block name="3. Supervised learning">
+      <description>http://scikit-learn.org/stable/supervised_learning.html</description>
+      <block name="3.1. Generalized Linear Models">
+        <description>http://scikit-learn.org/stable/modules/linear_model.html</description>
+      </block>
+      <block name="3.2. Support Vector Machines">
+        <description>http://scikit-learn.org/stable/modules/svm.html</description>
+      </block>
+      <block name="3.3. Stochastic Gradient Descent">
+        <description>http://scikit-learn.org/stable/modules/sgd.html</description>
+      </block>
+      <block name="3.4. Nearest Neighbors">
+        <description>http://scikit-learn.org/stable/modules/neighbors.html</description>
+      </block>
+      <block name="3.5. Gaussian Processes">
+        <description>http://scikit-learn.org/stable/modules/gaussian_process.html</description>
+      </block>
+      <block name="3.6. Partial Least Squares">
+        <description>http://scikit-learn.org/stable/modules/pls.html</description>
+      </block>
+      <block name="3.7. Naive Bayes">
+        <description>http://scikit-learn.org/stable/modules/naive_bayes.html</description>
+      </block>
+      <block name="3.8. Decision Trees">
+        <description>http://scikit-learn.org/stable/modules/tree.html</description>
+      </block>
+      <block name="3.9. Ensemble methods">
+        <description>http://scikit-learn.org/stable/modules/ensemble.html</description>
+      </block>
+      <block name="3.10. Multiclass and multilabel algorithms">
+        <description>http://scikit-learn.org/stable/modules/multiclass.html</description>
+      </block>
+      <block name="3.11. Feature selection">
+        <description>http://scikit-learn.org/stable/modules/feature_selection.html</description>
+      </block>
+      <block name="3.12. Semi-Supervised">
+        <description>http://scikit-learn.org/stable/modules/label_propagation.html</description>
+      </block>
+      <block name="3.13. Linear and Quadratic Discriminant Analysis">
+        <description>http://scikit-learn.org/stable/modules/lda_qda.html</description>
+      </block>
+      <block name="3.14. Isotonic regression">
+        <description>http://scikit-learn.org/stable/modules/isotonic.html</description>
+      </block>
+    </block>
+    <block name="4. Unsupervised learning">
+      <description>http://scikit-learn.org/stable/unsupervised_learning.html</description>
+      <block name="4.1. Gaussian mixture models">
+        <description>http://scikit-learn.org/stable/modules/mixture.html</description>
+      </block>
+      <block name="4.2. Manifold learning">
+        <description>http://scikit-learn.org/stable/modules/manifold.html</description>
+      </block>
+      <block name="4.3. Clustering">
+        <description>http://scikit-learn.org/stable/modules/clustering.html</description>
+      </block>
+      <block name="4.4. Decomposing signals in components">
+        <description>http://scikit-learn.org/stable/modules/decomposition.html</description>
+      </block>
+      <block name="4.5. Covariance estimation">
+        <description>http://scikit-learn.org/stable/modules/covariance.html</description>
+      </block>
+      <block name="4.6. Novelty and Outlier Detection">
+        <description>http://scikit-learn.org/stable/modules/outlier_detection.html</description>
+      </block>
+      <block name="4.7. Hidden Markov Models">
+        <description>http://scikit-learn.org/stable/modules/hmm.html</description>
+      </block>
+    </block>
+    <block name="5. Model selection and evaluation">
+      <description>http://scikit-learn.org/stable/model_selection.html</description>
+      <block name="5.1. Cross-Validation: evaluating estimator performance">
+        <description>http://scikit-learn.org/stable/modules/cross_validation.html</description>
+      </block>
+      <block name="5.2. Grid Search: setting estimator parameters">
+        <description>http://scikit-learn.org/stable/modules/grid_search.html</description>
+      </block>
+      <block name="5.3. Pipeline: chaining estimators">
+        <description>http://scikit-learn.org/stable/modules/pipeline.html</description>
+      </block>
+      <block name="5.4. FeatureUnion: Combining feature extractors">
+        <description>http://scikit-learn.org/stable/modules/pipeline.html#featureunion-combining-feature-extractors</description>
+      </block>
+      <block name="5.5. Model evaluation">
+        <description>http://scikit-learn.org/stable/modules/model_evaluation.html</description>
+      </block>
+    </block>
+    <block name="6. Dataset transformations">
+      <description>http://scikit-learn.org/stable/data_transforms.html</description>
+      <block name="6.1. Preprocessing data">
+        <description>http://scikit-learn.org/stable/modules/preprocessing.html</description>
+      </block>
+      <block name="6.2. Feature extraction">
+        <description>http://scikit-learn.org/stable/modules/feature_extraction.html</description>
+      </block>
+      <block name="6.3. Kernel Approximation">
+        <description>http://scikit-learn.org/stable/modules/kernel_approximation.html</description>
+      </block>
+      <block name="6.4. Random Projection">
+        <description>http://scikit-learn.org/stable/modules/random_projection.html</description>
+      </block>
+      <block name="6.5. Pairwise metrics, Affinities and Kernels">
+        <description>http://scikit-learn.org/stable/modules/metrics.html</description>
+      </block>
+    </block>
+    <block name="7. Dataset loading utilities">
+      <description>http://scikit-learn.org/stable/datasets/index.html</description>
+    </block>
+  </block>
+</block>

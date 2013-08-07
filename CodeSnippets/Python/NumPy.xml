@@ -42,17 +42,80 @@ data1 + data2
 
 # array([[ 1.1,  1.2,  1.3],
 #        [ 2.4,  2.5,  2.6]])]]></code>
-      <code tags="ndim number dimensions"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+      <code tags="ndim number dimensions axes rank"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
 data.ndim
 
 # 2]]></code>
-      <code tags="shape dimensions size"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+      <code tags="shape dimensions"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
 data.shape
 
 # (2L, 3L)]]></code>
+      <code tags="size total number elements"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+data.size
+
+# 6]]></code>
+      <code tags="itemsize size bytes"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+data.itemsize
+
+# 8]]></code>
+      <code tags="buffer data"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+data.data
+
+# <read-write buffer for 0x0000000008886F40, size 48, offset 0 at 0x00000000088CEB58>]]></code>
+      <code tags="type"><![CDATA[data = array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+type(data)
+
+# numpy.ndarray]]></code>
       <code tags="arange range sequence"><![CDATA[arange(10)
 
 # array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]]></code>
+      <code tags="arange range sequence reshape"><![CDATA[arange(10).reshape(2,5)
+
+# array([[0, 1, 2, 3, 4],
+#        [5, 6, 7, 8, 9]])]]></code>
+      <code tags="arange range sequence reshape"><![CDATA[arange(10).reshape((2,5))
+
+# array([[0, 1, 2, 3, 4],
+#        [5, 6, 7, 8, 9]])]]></code>
+      <code tags="arange range sequence"><![CDATA[arange(10, 30, 5)
+
+# array([10, 15, 20, 25])]]></code>
+      <code tags="arange range sequence float"><![CDATA[arange(0, 2, 0.3)
+
+# array([ 0. ,  0.3,  0.6,  0.9,  1.2,  1.5,  1.8])]]></code>
+      <code tags="linspace interval range"><![CDATA[linspace(0, 2, 9)
+
+# array([ 0.  ,  0.25,  0.5 ,  0.75,  1.  ,  1.25,  1.5 ,  1.75,  2.  ])]]></code>
+      <code tags="print 1d"><![CDATA[print arange(8)
+
+# [0 1 2 3 4 5 6 7]]]></code>
+      <code tags="print 1d big large"><![CDATA[print arange(10000)
+
+# [   0    1    2 ..., 9997 9998 9999]]]></code>
+      <code tags="print 2d reshape"><![CDATA[print arange(12).reshape(4,3)
+
+# [[ 0  1  2]
+#  [ 3  4  5]
+#  [ 6  7  8]
+#  [ 9 10 11]]]]></code>
+      <code tags="print 2d reshape big large"><![CDATA[print arange(10000).reshape(100,100)
+
+# [[   0    1    2 ...,   97   98   99]
+#  [ 100  101  102 ...,  197  198  199]
+#  [ 200  201  202 ...,  297  298  299]
+#  ..., 
+#  [9700 9701 9702 ..., 9797 9798 9799]
+#  [9800 9801 9802 ..., 9897 9898 9899]
+#  [9900 9901 9902 ..., 9997 9998 9999]]]]></code>
+      <code tags="print 3d reshape"><![CDATA[print arange(24).reshape(2,3,4)
+
+# [[[ 0  1  2  3]
+#   [ 4  5  6  7]
+#   [ 8  9 10 11]]
+# 
+#  [[12 13 14 15]
+#   [16 17 18 19]
+#   [20 21 22 23]]]]]></code>
       <code tags="zeros"><![CDATA[zeros(10)
 
 # array([ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.])]]></code>
@@ -252,8 +315,47 @@ data = array(['Hello', 'NumPy'], dtype='U5')     # To create a unicode string dt
 
 # array([[ 1.        ,  1.41421356,  1.73205081],
 #        [ 2.        ,  2.23606798,  2.44948974]])]]></code>
+        <code tags="sin sinus function"><![CDATA[sin(data)
+
+# array([[ 0.84147098,  0.90929743,  0.14112001],
+#        [-0.7568025 , -0.95892427, -0.2794155 ]])]]></code>
+        <code tags="cos cosinus function"><![CDATA[cos(data)
+
+# array([[ 0.54030231, -0.41614684, -0.9899925 ],
+#        [-0.65364362,  0.28366219,  0.96017029]])]]></code>
+        <code tags="bool boolean"><![CDATA[data > 2
+
+# array([[False, False,  True],
+#        [ True,  True,  True]], dtype=bool)]]></code>
+        <code tags="sum"><![CDATA[data.sum()
+
+# 21.0]]></code>
+        <code tags="min minimum"><![CDATA[data.min()
+
+# 1.0]]></code>
+        <code tags="max maximum"><![CDATA[data.max()
+
+# 6.0]]></code>
+        <code tags="sum axis rows"><![CDATA[data.sum(axis=0)
+
+# array([ 5.,  7.,  9.])]]></code>
+        <code tags="min minimum axis rows"><![CDATA[data.min(axis=0)
+
+# array([ 1.,  2.,  3.])]]></code>
+        <code tags="max maximum axis rows"><![CDATA[data.max(axis=0)
+
+# array([ 4.,  5.,  6.])]]></code>
+        <code tags="sum axis cols columns"><![CDATA[data.sum(axis=1)
+
+# array([  6.,  15.])]]></code>
+        <code tags="min minimum axis cols columns"><![CDATA[data.min(axis=1)
+
+# array([ 1.,  4.])]]></code>
+        <code tags="max maximum axis cols columns"><![CDATA[data.max(axis=1)
+
+# array([ 3.,  6.])]]></code>
       </block>
-      <block name="Indexing and Slicing">
+      <block name="Indexing and Slicing" tags="select">
         <prerequisites><![CDATA[# Array slices are views on the original array. This means that 
 # the modifications to the view will be reflected in the source.]]></prerequisites>
         <block name="Simple" tags="1d one dim dimensional">
@@ -287,6 +389,20 @@ data_slice[0:2] = 10
 data
 
 # array([ 0,  1,  2,  3, 10, 10,  6,  7,  8,  9])]]></code>
+        </block>
+        <block name="Multi" tags="2d 3d two dim dimensional multidimensional">
+          <code tags="index row"><![CDATA[data = array([[ 1.,  2.,  3.], [ 4.,  5.,  6.]])
+data[1]
+
+# array([ 4.,  5.,  6.])]]></code>
+          <code tags="index element"><![CDATA[data = array([[ 1.,  2.,  3.], [ 4.,  5.,  6.]])
+data[1][0]
+
+# 4.0]]></code>
+          <code tags="index element"><![CDATA[data = array([[ 1.,  2.,  3.], [ 4.,  5.,  6.]])
+data[1,0]
+
+# 4.0]]></code>
         </block>
       </block>
     </block>
