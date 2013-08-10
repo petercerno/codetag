@@ -4,7 +4,7 @@
   <block name="NumPy" tags="numpy">
     <description>http://www.numpy.org/</description>
     <prerequisites><![CDATA[from numpy import *]]></prerequisites>
-    <block name="Array" tags="array ndarray vector">
+    <block name="Array" tags="array ndarray">
       <code tags="create row"><![CDATA[data = array([0.1, 0.2, 0.3])
 data
 
@@ -206,6 +206,18 @@ float_data = data.astype(float64)
 float_data
 
 # array([ 1.6, -2.5,  3.2,  0.1])]]></code>
+      <code tags="mesh grid meshgrid 2d"><![CDATA[xs, ys = meshgrid(array([1, 2, 3, 4]), array([0.1, 0.2, 0.3]))
+xs
+
+# array([[1, 2, 3, 4],
+#        [1, 2, 3, 4],
+#        [1, 2, 3, 4]])
+
+ys
+
+# array([[ 0.1,  0.1,  0.1,  0.1],
+#        [ 0.2,  0.2,  0.2,  0.2],
+#        [ 0.3,  0.3,  0.3,  0.3]])]]></code>
       <block name="Data Types" tags="dtype type">
         <code tags="int int32"><![CDATA[data = array([1, 2, 3])
 data.dtype
@@ -327,27 +339,58 @@ data = array(['Hello', 'NumPy'], dtype='U5')     # To create a unicode string dt
 
 # array([[False, False,  True],
 #        [ True,  True,  True]], dtype=bool)]]></code>
-        <code tags="sum"><![CDATA[data.sum()
+        <code tags="sum add"><![CDATA[data.sum()
 
 # 21.0]]></code>
+        <code tags="prod product mul multiply"><![CDATA[data.prod()
+
+# 720.0]]></code>
+        <code tags="cumsum cummulative sum add"><![CDATA[data.cumsum()
+
+# array([  1.,   3.,   6.,  10.,  15.,  21.])]]></code>
+        <code tags="cumprod cummulative prod product mul multiply"><![CDATA[data.cumprod()
+
+# array([   1.,    2.,    6.,   24.,  120.,  720.])]]></code>
         <code tags="min minimum"><![CDATA[data.min()
 
 # 1.0]]></code>
         <code tags="max maximum"><![CDATA[data.max()
 
 # 6.0]]></code>
-        <code tags="sum axis rows"><![CDATA[data.sum(axis=0)
+        <code tags="sum add axis rows"><![CDATA[data.sum(axis=0)
 
 # array([ 5.,  7.,  9.])]]></code>
+        <code tags="prod product mul multiply axis rows"><![CDATA[data.prod(axis=0)
+
+# array([  4.,  10.,  18.])]]></code>
+        <code tags="cumsum cummulative sum add axis rows"><![CDATA[data.cumsum(axis=0)
+
+# array([[ 1.,  2.,  3.],
+#        [ 5.,  7.,  9.]])]]></code>
+        <code tags="cumprod cummulative prod product mul multiply axis rows"><![CDATA[data.cumprod(axis=0)
+
+# array([[  1.,   2.,   3.],
+#        [  4.,  10.,  18.]])]]></code>
         <code tags="min minimum axis rows"><![CDATA[data.min(axis=0)
 
 # array([ 1.,  2.,  3.])]]></code>
         <code tags="max maximum axis rows"><![CDATA[data.max(axis=0)
 
 # array([ 4.,  5.,  6.])]]></code>
-        <code tags="sum axis cols columns"><![CDATA[data.sum(axis=1)
+        <code tags="sum add axis cols columns"><![CDATA[data.sum(axis=1)
 
 # array([  6.,  15.])]]></code>
+        <code tags="prod product mul multiply axis cols columns"><![CDATA[data.prod(axis=1)
+
+# array([   6.,  120.])]]></code>
+        <code tags="cumsum cummulative sum add axis cols columns"><![CDATA[data.cumsum(axis=1)
+
+# array([[  1.,   3.,   6.],
+#        [  4.,   9.,  15.]])]]></code>
+        <code tags="cumprod cummulative prod product mul multiply axis cols columns"><![CDATA[data.cumprod(axis=1)
+
+# array([[   1.,    2.,    6.],
+#        [   4.,   20.,  120.]])]]></code>
         <code tags="min minimum axis cols columns"><![CDATA[data.min(axis=1)
 
 # array([ 1.,  4.])]]></code>
@@ -355,7 +398,7 @@ data = array(['Hello', 'NumPy'], dtype='U5')     # To create a unicode string dt
 
 # array([ 3.,  6.])]]></code>
       </block>
-      <block name="Indexing and Slicing" tags="select">
+      <block name="Indexing and Slicing" tags="select slicing indexing">
         <prerequisites><![CDATA[# Array slices are views on the original array. This means that 
 # the modifications to the view will be reflected in the source.]]></prerequisites>
         <block name="Simple" tags="1d one dim dimensional">
@@ -403,8 +446,384 @@ data[1][0]
 data[1,0]
 
 # 4.0]]></code>
+          <code tags="index assign"><![CDATA[data3d = array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+data3d[0]
+
+# array([[1, 2, 3],
+#        [4, 5, 6]])
+
+data3d[0] = 0
+data3d
+
+# array([[[ 0,  0,  0],
+#         [ 0,  0,  0]],
+# 
+#        [[ 7,  8,  9],
+#         [10, 11, 12]]])]]></code>
+          <code tags="slice row column"><![CDATA[data = arange(9).reshape(3,3)
+data
+
+# array([[0, 1, 2],
+#        [3, 4, 5],
+#        [6, 7, 8]])
+
+data[:2, 1:]
+
+# array([[1, 2],
+#        [4, 5]])
+
+data[2, :2]
+
+# array([6, 7])
+
+data[2:3, :2]
+
+# array([[6, 7]])
+
+data[:, 2]
+
+# array([2, 5, 8])
+
+data[:, 2:3]
+
+# array([[2],
+#        [5],
+#        [8]])]]></code>
+        </block>
+        <block name="Boolean Mask" tags="boolean mask">
+          <prerequisites><![CDATA[names = array(['A', 'B', 'A', 'A', 'B', 'C', 'B', 'C', 'A', 'B'])
+data = arange(10)]]></prerequisites>
+          <code tags="equal equality"><![CDATA[names == 'A'
+
+# array([ True, False,  True,  True, False, False, False, False,  True, False], dtype=bool)]]></code>
+          <code tags="equal equality"><![CDATA[data[names == 'A']
+
+# array([0, 2, 3, 8])]]></code>
+          <code tags="non equal equality"><![CDATA[names != 'A'
+
+# array([False,  True, False, False,  True,  True,  True,  True, False,  True], dtype=bool)]]></code>
+          <code tags="non equal equality"><![CDATA[data[names != 'A']
+
+# array([1, 4, 5, 6, 7, 9])]]></code>
+          <code tags="non equal equality"><![CDATA[data[-(names == 'A')]
+
+# array([1, 4, 5, 6, 7, 9])]]></code>
+          <code tags="mask or"><![CDATA[mask = (names == 'A') | (names == 'B')
+mask
+
+# array([ True,  True,  True,  True,  True, False,  True, False,  True,  True], dtype=bool)
+
+data[mask]
+
+# array([0, 1, 2, 3, 4, 6, 8, 9])]]></code>
+        </block>
+        <block name="Boolean Mask Multi" tags="2d 3d two dim dimensional multidimensional boolean mask">
+          <prerequisites><![CDATA[names = array(['A', 'B', 'A', 'A', 'B'])
+data = \
+array([[ 0.99967699, -2.1012428 ,  1.75486491, -1.51122214],\
+       [ 0.33066342,  2.23753523,  1.14904487,  1.16904971],\
+       [ 0.16658431, -0.61043839, -1.12147585,  0.51585227],\
+       [-0.5238359 ,  1.56868351, -0.32276508, -0.08403215],\
+       [-0.18533686, -0.11829734,  0.08526658, -0.2188181 ]])]]></prerequisites>
+          <code tags="equal equality"><![CDATA[data[names == 'A']
+
+# array([[ 0.99967699, -2.1012428 ,  1.75486491, -1.51122214],
+#        [ 0.16658431, -0.61043839, -1.12147585,  0.51585227],
+#        [-0.5238359 ,  1.56868351, -0.32276508, -0.08403215]])]]></code>
+          <code tags="equal equality assign"><![CDATA[data[names == 'A'] = 1
+data
+
+# array([[ 1.        ,  1.        ,  1.        ,  1.        ],
+#        [ 0.33066342,  2.23753523,  1.14904487,  1.16904971],
+#        [ 1.        ,  1.        ,  1.        ,  1.        ],
+#        [ 1.        ,  1.        ,  1.        ,  1.        ],
+#        [-0.18533686, -0.11829734,  0.08526658, -0.2188181 ]])]]></code>
+          <code tags="inequality"><![CDATA[data < 0
+
+# array([[False,  True, False,  True],
+#        [False, False, False, False],
+#        [False,  True,  True, False],
+#        [ True, False,  True,  True],
+#        [ True,  True, False,  True]], dtype=bool)]]></code>
+          <code tags="inequality assign"><![CDATA[data[data < 0] = 0
+data
+
+# array([[ 0.99967699,  0.        ,  1.75486491,  0.        ],
+#        [ 0.33066342,  2.23753523,  1.14904487,  1.16904971],
+#        [ 0.16658431,  0.        ,  0.        ,  0.51585227],
+#        [ 0.        ,  1.56868351,  0.        ,  0.        ],
+#        [ 0.        ,  0.        ,  0.08526658,  0.        ]])]]></code>
+        </block>
+        <block name="Fancy" tags="fancy integer arrays">
+          <prerequisites><![CDATA[data = array([[i]*4 for i in range(6)])]]></prerequisites>
+          <code><![CDATA[data[[2, 0, 1]]
+
+# array([[2, 2, 2, 2],
+#        [0, 0, 0, 0],
+#        [1, 1, 1, 1]])]]></code>
+          <code><![CDATA[data[[-2, -3, -1]]
+
+# array([[4, 4, 4, 4],
+#        [3, 3, 3, 3],
+#        [5, 5, 5, 5]])]]></code>
+        </block>
+        <block name="Fancy Multi" tags="2d 3d two dim dimensional multidimensional fancy integer arrays">
+          <prerequisites><![CDATA[data = arange(20).reshape(5,4)]]></prerequisites>
+          <code><![CDATA[data[[3,0,1,2],[1,0,2,2]]
+
+# array([13,  0,  6, 10])]]></code>
+          <code><![CDATA[data[[3,0,1,2]][:,[1,0,2,2]]
+
+# array([[13, 12, 14, 14],
+#        [ 1,  0,  2,  2],
+#        [ 5,  4,  6,  6],
+#        [ 9,  8, 10, 10]])]]></code>
         </block>
       </block>
+    </block>
+    <block name="Examples" tags="examples samples array ndarray">
+      <description>http://wiki.scipy.org/Numpy_Example_List</description>
+      <code tags="dots"><![CDATA[a = arange(12)
+a = a.reshape(3,2,2)
+print a
+
+# [[[ 0  1]
+#   [ 2  3]]
+#  [[ 4  5]
+#   [ 6  7]]
+#  [[ 8  9]
+#   [10 11]]]
+
+a[...,0]  # same as a[:,:,0]
+
+# array([[ 0,  2],
+#        [ 4,  6],
+#        [ 8, 10]])
+
+a[1:,...] # same as a[1:,:,:] or just a[1:]
+
+# array([[[ 4, 5],
+#         [ 6, 7]],
+#        [[ 8, 9],
+#         [10, 11]]])]]></code>
+      <code tags="square brackets index indexing slice slicing"><![CDATA[a = array([ [ 0, 1, 2, 3, 4],\
+            [10,11,12,13,14],\
+            [20,21,22,23,24],\
+            [30,31,32,33,34] ])
+a[0,0] # indices start by zero
+# 0
+
+a[-1] # last row
+# array([30, 31, 32, 33, 34])
+
+a[1:3,1:4] # subarray
+# array([[11, 12, 13],
+#        [21, 22, 23]])
+
+i = array([0,1,2,1]) # array of indices for the first axis
+j = array([1,2,3,4]) # array of indices for the second axis
+a[i,j]
+# array([ 1, 12, 23, 14])
+
+a[a<13] # boolean indexing
+# array([ 0, 1, 2, 3, 4, 10, 11, 12])
+
+b1 = array( [True,False,True,False] ) # boolean row selector
+a[b1,:]
+# array([[ 0, 1, 2, 3, 4],
+#        [20, 21, 22, 23, 24]])
+
+b2 = array( [False,True,True,False,True] ) # boolean column selector
+a[:,b2]
+# array([[ 1, 2, 4],
+#        [11, 12, 14],
+#        [21, 22, 24],
+#        [31, 32, 34]])]]></code>
+      <code tags="abs absolute"><![CDATA[abs(-1)
+# 1
+
+abs(array([-1.2, 1.2]))
+# array([ 1.2, 1.2])
+
+abs(1.2+1j)
+# 1.5620499351813308
+
+absolute(1.2+1j)
+# 1.5620499351813308]]></code>
+      <code tags="accumulate add mul multiply axis rows cols columns"><![CDATA[add.accumulate(array([1.,2.,3.,4.])) # like reduce() but also gives intermediate results
+# array([ 1., 3., 6., 10.])
+
+array([1., 1.+2., (1.+2.)+3., ((1.+2.)+3.)+4.]) # this is what it computed
+# array([ 1., 3., 6., 10.])
+
+multiply.accumulate(array([1.,2.,3.,4.])) # works also with other operands
+# array([ 1., 2., 6., 24.])
+
+array([1., 1.*2., (1.*2.)*3., ((1.*2.)*3.)*4.]) # this is what it computed
+# array([ 1., 2., 6., 24.])
+
+add.accumulate(array([[1,2,3],[4,5,6]]), axis = 0) # accumulate every column separately
+# array([[1, 2, 3],
+#        [5, 7, 9]])
+
+add.accumulate(array([[1,2,3],[4,5,6]]), axis = 1) # accumulate every row separately
+# array([[ 1, 3, 6],
+#        [ 4, 9, 15]])]]></code>
+      <code tags="add plus"><![CDATA[add(array([-1.2, 1.2]), array([1,3]))
+# array([-0.2, 4.2])
+
+array([-1.2, 1.2]) + array([1,3])
+# array([-0.2, 4.2])]]></code>
+      <code tags="all elements true"><![CDATA[a = array([True, False, True])
+a.all() # if all elements of a are True: return True; otherwise False
+# False
+
+all(a) # this form also exists
+# False
+
+a = array([1,2,3])
+all(a > 0) # equivalent to (a > 0).all()
+# True]]></code>
+      <code tags="all elements close similar"><![CDATA[allclose(array([1e10,1e-7]), array([1.00001e10,1e-8]))
+# False
+
+allclose(array([1e10,1e-8]), array([1.00001e10,1e-9]))
+# True
+
+allclose(array([1e10,1e-8]), array([1.0001e10,1e-9]))
+# False]]></code>
+      <code tags="all elements true alltrue"><![CDATA[b = array([True, False, True, True])
+alltrue(b)
+# False
+
+a = array([1, 5, 2, 7])
+alltrue(a >= 5)
+# False]]></code>
+      <code tags="angle rad radians deg degrees"><![CDATA[angle(1+1j) # in radians
+# 0.78539816339744828
+
+angle(1+1j,deg=True) # in degrees
+# 45.0]]></code>
+      <code tags="any at least one exists some"><![CDATA[a = array([True, False, True])
+a.any() # gives True if at least 1 element of a is True, otherwise False
+# True
+
+any(a) # this form also exists
+# True
+
+a = array([1,2,3])
+(a >= 1).any() # equivalent to any(a >= 1)
+# True]]></code>
+      <code tags="append add concatenate axis rows cols columns"><![CDATA[a = array([10,20,30,40])
+append(a,50)
+# array([10, 20, 30, 40, 50])
+
+append(a,[50,60])
+# array([10, 20, 30, 40, 50, 60])
+
+a = array([[10,20,30],[40,50,60],[70,80,90]])
+append(a,[[15,15,15]],axis=0)
+# array([[10, 20, 30],
+#        [40, 50, 60],
+#        [70, 80, 90],
+#        [15, 15, 15]])
+
+append(a,[[15],[15],[15]],axis=1)
+# array([[10, 20, 30, 15],
+#        [40, 50, 60, 15],
+#        [70, 80, 90, 15]])]]></code>
+      <code tags="apply custom function along axis rows cols columns"><![CDATA[def myfunc(a): # function works on a 1d arrays, takes the average of the 1st an last element
+  return (a[0]+a[-1])/2
+
+b = array([[1,2,3],[4,5,6],[7,8,9]])
+apply_along_axis(myfunc,0,b) # apply myfunc to each column (axis=0) of b
+# array([4, 5, 6])
+
+apply_along_axis(myfunc,1,b) # apply myfunc to each row (axis=1) of b
+# array([2, 5, 8])]]></code>
+      <code tags="apply function over specific axes axis"><![CDATA[a = arange(24).reshape(2,3,4) # a has 3 axes: 0,1 and 2
+a
+# array([[[ 0, 1, 2, 3],
+#         [ 4, 5, 6, 7],
+#         [ 8, 9, 10, 11]],
+#        [[12, 13, 14, 15],
+#         [16, 17, 18, 19],
+#         [20, 21, 22, 23]]])
+
+apply_over_axes(sum, a, [0,2]) # sum over all axes except axis=1, result has same shape as original
+# array([[[ 60],
+#         [ 92],
+#         [124]]])]]></code>
+      <code tags="arange range sequence start stop step"><![CDATA[arange(3)
+# array([0, 1, 2])
+
+arange(3.0)
+# array([ 0., 1., 2.])
+
+arange(3, dtype=float)
+# array([ 0., 1., 2.])
+
+arange(3,10) # start,stop
+# array([3, 4, 5, 6, 7, 8, 9])
+
+arange(3,10,2) # start,stop,step
+# array([3, 5, 7, 9])]]></code>
+      <code tags="arccos arcus cosinus inverse"><![CDATA[arccos(array([0, 1]))
+# array([ 1.57079633, 0. ])]]></code>
+      <code tags="arccosh arcus cosinus hyperbolic inverse"><![CDATA[arccosh(array([e, 10.0]))
+# array([ 1.65745445, 2.99322285])]]></code>
+      <code tags="arcsin arcus sinus inverse"><![CDATA[arcsin(array([0, 1]))
+# array([ 0. , 1.57079633])]]></code>
+      <code tags="arcsin arcus sinus hyperbolic inverse"><![CDATA[arcsinh(array([e, 10.0]))
+# array([ 1.72538256, 2.99822295])]]></code>
+      <code tags="arctan arcus tangens inverse"><![CDATA[arctan(array([0, 1]))
+# array([ 0. , 0.78539816])]]></code>
+      <code tags="arctan2 arcus tangens inverse"><![CDATA[arctan2(array([0, 1]), array([1, 0]))
+# array([ 0. , 1.57079633])]]></code>
+      <code tags="arctanh arcus tangens hyperbolic inverse"><![CDATA[arctanh(array([0, -0.5]))
+# array([ 0. , -0.54930614])]]></code>
+      <code tags="argmax argument max maximum axis rows cols columns"><![CDATA[a = array([10,20,30])
+maxindex = a.argmax()
+a[maxindex]
+# 30
+
+a = array([[10,50,30],[60,20,40]])
+maxindex = a.argmax()
+maxindex
+# 3
+
+a.ravel()[maxindex]
+# 60
+
+a.argmax(axis=0) # for each column: the row index of the maximum value
+# array([1, 0, 1])
+
+a.argmax(axis=1) # for each row: the column index of the maximum value
+# array([1, 0])
+
+argmax(a) # also exists, slower, default is axis=-1
+# array([1, 0])]]></code>
+      <code tags="argmin argument min minimum axis rows cols columns"><![CDATA[a = array([10,20,30])
+minindex = a.argmin()
+a[minindex]
+# 10
+
+a = array([[10,50,30],[60,20,40]])
+minindex = a.argmin()
+minindex
+# 0
+
+a.ravel()[minindex]
+# 10
+
+a.argmin(axis=0) # for each column: the row index of the minimum value
+# array([0, 1, 0])
+
+a.argmin(axis=1) # for each row: the column index of the minimum value
+# array([0, 1])
+
+argmin(a) # also exists, slower, default is axis=-1
+# array([0, 1])]]></code>
     </block>
   </block>
 </block>
