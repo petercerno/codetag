@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<block name="Git" syntax="git" tags="git">
+  <description>http://git-scm.com/</description>
+  <code tags="config global user name email"><![CDATA[git config --global user.name $USERNAME
+git config --global user.email $EMAIL]]></code>
+  <code tags="clone github"><![CDATA[git clone git@github.com:$USERNAME/$REPOSITORY.git]]></code>
+  <code tags="create develop development branch"><![CDATA[git checkout -b develop
+git branch]]></code>
+  <code tags="push origin new develop development branch track remote changes"><![CDATA[git push -u origin develop]]></code>
+  <code tags="create staging branch"><![CDATA[git checkout -b staging
+git branch]]></code>
+  <code tags="push origin new staging branch track remote changes"><![CDATA[git push -u origin staging]]></code>
+  <code tags="checkout develop development branch"><![CDATA[git checkout develop
+git branch]]></code>
+  <code tags="merge changes from develop into staging branch"><![CDATA[git checkout staging # not checkout -b, because branch already exists
+git merge develop # merge changes from develop into staging]]></code>
+  <code tags="merge changes from staging into master branch"><![CDATA[git checkout master # not checkout -b, because branch already exists
+git merge staging # merge changes from staging into master]]></code>
+  <code tags="add changes"><![CDATA[git add $FILE]]></code>
+  <code tags="commit changes"><![CDATA[git commit -m "Fixed bugs in develop branch."]]></code>
+  <code tags="commit add changes"><![CDATA[git commit -a -m "Fixed bugs in develop branch."]]></code>
+  <code tags="push origin develop development"><![CDATA[git push origin develop # push develop commits to github]]></code>
+  <code tags="push origin staging"><![CDATA[git push origin staging # push staging branch to github]]></code>
+  <code tags="push origin master"><![CDATA[git push origin master # push master branch to github]]></code>
+</block>
