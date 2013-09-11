@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<block name="Python" syntax="python" tags="python">
+  <description>http://python.org/</description>
+  <block name="Python" tags="python">
+    <description>http://www.python.org/</description>
+  </block>
+</block>
+
