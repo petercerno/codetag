@@ -93,6 +93,8 @@ namespace CodeTag
                         item.Checked = codeSnippetSource.Item2;
                     }
 
+                startupCheckBox.Checked = Configuration.Startup;
+
                 IsConfigurationUpdated = false;
             }
             catch (Exception exception)
@@ -102,6 +104,7 @@ namespace CodeTag
                 removeSpecialCharsCheckBox.Checked = true;
                 prefixMatchRadioButton.Checked = true;
                 sourceListView.Items.Clear();
+                startupCheckBox.Checked = false;
             }
 
             LockLayout = false;
@@ -128,6 +131,8 @@ namespace CodeTag
                 Configuration.CheckedCodeSnippetSources =
                     (from ListViewItem item in sourceListView.Items
                      select Tuple.Create(item.SubItems[1].Text, item.Checked)).ToArray();
+
+                Configuration.Startup = startupCheckBox.Checked;
 
                 IsConfigurationUpdated = true;
 

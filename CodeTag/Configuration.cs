@@ -59,6 +59,7 @@ namespace CodeTag
         public static readonly TagPreprocess DefaultTagPreprocess = TagPreprocess.LowerCase | TagPreprocess.RemoveSpecialChars;
         public static readonly TagMatch DefaultTagMatch = TagMatch.Prefix;
         public static readonly Tuple<string, bool>[] DefaultCodeSnippetSources = new Tuple<string, bool>[0];
+        public static readonly bool DefaultStartup = false;
 
         /// <summary>
         /// Get or set the enumeration of tag preprocessors.
@@ -163,6 +164,36 @@ namespace CodeTag
                     codeSnippetSourceCollection.AddRange(value.Select(t => t.Item1).ToArray());
                     Settings.Default.CodeSnippetSources = codeSnippetSourceCollection;
                     Settings.Default.CodeSnippetSourcesChecked = string.Concat(value.Select(t => t.Item2 ? "1" : "0"));
+                }
+                catch (Exception exception)
+                {
+                    ErrorReport.Report(exception);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set the launch at the startup.
+        /// </summary>
+        public static bool Startup
+        {
+            get
+            {
+                try
+                {
+                    return Settings.Default.Startup;
+                }
+                catch (Exception exception)
+                {
+                    ErrorReport.Report(exception);
+                    return DefaultStartup;
+                }
+            }
+            set
+            {
+                try
+                {
+                    Settings.Default.Startup = value;
                 }
                 catch (Exception exception)
                 {

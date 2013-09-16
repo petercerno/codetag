@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using CodeTag.Common;
 using CodeTag.Core;
 using CodeTag.Core.CodeSnippetSources;
@@ -107,7 +108,7 @@ namespace CodeTag
         private const int HotKeyId = 0;
 
         // Icon graphic from http://fortawesome.github.io/Font-Awesome/
-        private const string IconFileName = "Icons/icon_tags_16x16.ico";
+        private const string IconFileName = "icon_tags_16x16.ico";
         private const string DefaultTooltip = "CodeTag via context menu";
 
         /// <summary>
@@ -123,6 +124,8 @@ namespace CodeTag
                 // Register Alt + A as global hotkey. 
                 _hotKeyManager = new HotkeyManager(this);
                 RegisterHotKey(_hotKeyManager.Handle, HotKeyId, (int) KeyModifier.Alt, Keys.A.GetHashCode());
+
+                SetStartup();
             }
             catch (Exception exception)
             {
@@ -216,13 +219,37 @@ namespace CodeTag
             }
         }
 
+        /// <summary>
+        /// Configuring program to launch at startup:
+        /// http://stackoverflow.com/questions/674628/how-do-i-set-a-program-to-launch-at-startup
+        /// </summary>
+        private static void SetStartup()
+        {
+            try
+            {
+                using (
+                    var rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                    if (rk != null)
+                    {
+                        if (Configuration.Startup)
+                            rk.SetValue("CodeTag", Application.ExecutablePath);
+                        else
+                            rk.DeleteValue("CodeTag", false);
+                    }
+            }
+            catch (Exception exception)
+            {
+                ErrorReport.Report(exception);
+            }
+        }
+
         private void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
                 e.Cancel = false;
                 _notifyIcon.ContextMenuStrip.Items.Clear();
-                var showCodeTagFormItem = new ToolStripMenuItem("&Show");
+                var showCodeTagFormItem = new ToolStripMenuItem("&Search");
                 showCodeTagFormItem.Click += delegate { ShowCodeTagForm(); };
                 var showConfigureFormItem = new ToolStripMenuItem("&Configure");
                 showConfigureFormItem.Click += delegate { ShowConfigureForm(); };
@@ -299,10 +326,13 @@ namespace CodeTag
             else { _editorForm.Activate(); }
         }
 
-        private void UpdateCodeTagForm(bool rebuildCodeSnippetSource)
+        private void UpdateCodeTagForm(bool isConfigurationUpdated)
         {
-            if (rebuildCodeSnippetSource)
+            if (isConfigurationUpdated)
+            {
                 InitializeCodeSnippetSource();
+                SetStartup();
+            }
             if (_codeTagForm != null)
                 _codeTagForm.UpdateCodeSnippets();
         }

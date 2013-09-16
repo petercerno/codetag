@@ -74,6 +74,7 @@ namespace CodeTag
             this.substringMatchRadioButton = new System.Windows.Forms.RadioButton();
             this.prefixMatchRadioButton = new System.Windows.Forms.RadioButton();
             this.exactMatchRadioButton = new System.Windows.Forms.RadioButton();
+            this.startupCheckBox = new System.Windows.Forms.CheckBox();
             this.tagGroupBox.SuspendLayout();
             this.sourceGroupBox.SuspendLayout();
             this.matchGroupBox.SuspendLayout();
@@ -231,7 +232,7 @@ namespace CodeTag
             this.cancelButton.Location = new System.Drawing.Point(616, 431);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 3;
+            this.cancelButton.TabIndex = 4;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
@@ -242,7 +243,7 @@ namespace CodeTag
             this.okButton.Location = new System.Drawing.Point(697, 431);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 4;
+            this.okButton.TabIndex = 5;
             this.okButton.Text = "Ok";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
@@ -289,6 +290,17 @@ namespace CodeTag
             this.exactMatchRadioButton.TabIndex = 0;
             this.exactMatchRadioButton.Text = "Exact";
             // 
+            // startupCheckBox
+            // 
+            this.startupCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.startupCheckBox.AutoSize = true;
+            this.startupCheckBox.Location = new System.Drawing.Point(32, 433);
+            this.startupCheckBox.Name = "startupCheckBox";
+            this.startupCheckBox.Size = new System.Drawing.Size(163, 20);
+            this.startupCheckBox.TabIndex = 3;
+            this.startupCheckBox.Text = "Launch at Startup";
+            this.startupCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ConfigureForm
             // 
             this.AcceptButton = this.okButton;
@@ -297,6 +309,7 @@ namespace CodeTag
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(784, 466);
             this.ControlBox = false;
+            this.Controls.Add(this.startupCheckBox);
             this.Controls.Add(this.matchGroupBox);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
@@ -316,6 +329,7 @@ namespace CodeTag
             this.matchGroupBox.ResumeLayout(false);
             this.matchGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -340,5 +354,6 @@ namespace CodeTag
         private System.Windows.Forms.RadioButton exactMatchRadioButton;
         private System.Windows.Forms.Button selectNoneButton;
         private System.Windows.Forms.Button selectAllButton;
+        private System.Windows.Forms.CheckBox startupCheckBox;
     }
 }
