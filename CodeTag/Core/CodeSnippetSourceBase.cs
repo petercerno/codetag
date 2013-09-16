@@ -42,6 +42,7 @@ namespace CodeTag.Core
         /// <returns>List of filtered code snippets.</returns>
         public IList<CodeSnippet> Search(ISet<string> tags)
         {
+            // ReSharper disable ImplicitlyCapturedClosure
             if (CodeSnippets == null || CodeSnippets.Count == 0)
                 return new List<CodeSnippet>();
             if (TagPreprocessor != null)
@@ -62,6 +63,7 @@ namespace CodeTag.Core
                                : codeSnippet.AllTags
                        where tags.IsSubsetOf(codeSnippetTags)
                        select codeSnippet).ToList();
+            // ReSharper restore ImplicitlyCapturedClosure
         }
 
         /// <summary>

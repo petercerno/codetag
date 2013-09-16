@@ -38,13 +38,14 @@ namespace CodeTag.Core
         internal CodeSnippet(
             string code,
             IEnumerable<string> tags,
-            string syntax = null,
             CodeContext context = null)
         {
             if (tags == null)
                 throw new ArgumentException("tags");
             Code = code ?? string.Empty;
-            Syntax = syntax ?? (context != null ? context.Syntax : string.Empty);
+            Authors = context != null ? context.Authors : string.Empty;
+            Source = context != null ? context.Source : string.Empty;
+            Syntax = context != null ? context.Syntax : string.Empty;
             SpecificTags = new SortedSet<string>(tags);
             AllTags = context != null
                           ? new SortedSet<string>(SpecificTags.Union(context.AllTags))
@@ -56,6 +57,16 @@ namespace CodeTag.Core
         /// Code of the code snippet
         /// </summary>
         public string Code { get; protected set; }
+
+        /// <summary>
+        /// Authors of the code context.
+        /// </summary>
+        public string Authors { get; protected set; }
+
+        /// <summary>
+        /// Source of the code context.
+        /// </summary>
+        public string Source { get; protected set; }
 
         /// <summary>
         /// Syntax of the code snippet.

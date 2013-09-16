@@ -63,6 +63,8 @@ namespace CodeTag.Core.CodeSnippetSources
                 new CodeContext(
                     xmlBlock.Name.Strip(),
                     Split(xmlBlock.Tags),
+                    xmlBlock.Authors.Strip(),
+                    xmlBlock.Source.Strip(),
                     xmlBlock.Syntax.Strip(),
                     xmlBlock.Description.Strip(),
                     xmlBlock.Prerequisites.Strip(),
@@ -83,7 +85,6 @@ namespace CodeTag.Core.CodeSnippetSources
                 new CodeSnippet(
                     xmlCode.Code.Strip(),
                     Split(xmlCode.Tags),
-                    xmlCode.Syntax.Strip(),
                     parentContext));
         }
 

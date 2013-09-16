@@ -58,9 +58,14 @@ namespace CodeTag
             this.filterTextBox = new System.Windows.Forms.TextBox();
             this.panel = new System.Windows.Forms.Panel();
             this.codeRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.tagTextBox = new System.Windows.Forms.TextBox();
-            this.statusLabel = new System.Windows.Forms.Label();
+            this.tagsTextBox = new System.Windows.Forms.TextBox();
             this.hintLabel = new System.Windows.Forms.Label();
+            this.authorsTextBox = new System.Windows.Forms.TextBox();
+            this.sourceTextBox = new System.Windows.Forms.TextBox();
+            this.tagsLabel = new System.Windows.Forms.Label();
+            this.authorsLabel = new System.Windows.Forms.Label();
+            this.sourceLabel = new System.Windows.Forms.Label();
+            this.statusTextBox = new System.Windows.Forms.TextBox();
             this.panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +90,7 @@ namespace CodeTag
             this.panel.Controls.Add(this.codeRichTextBox);
             this.panel.Location = new System.Drawing.Point(12, 56);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(760, 354);
+            this.panel.Size = new System.Drawing.Size(760, 286);
             this.panel.TabIndex = 2;
             // 
             // codeRichTextBox
@@ -95,39 +100,94 @@ namespace CodeTag
             this.codeRichTextBox.Location = new System.Drawing.Point(0, 0);
             this.codeRichTextBox.Name = "codeRichTextBox";
             this.codeRichTextBox.ReadOnly = true;
-            this.codeRichTextBox.Size = new System.Drawing.Size(758, 352);
+            this.codeRichTextBox.Size = new System.Drawing.Size(758, 284);
             this.codeRichTextBox.TabIndex = 0;
             this.codeRichTextBox.Text = "";
             // 
-            // tagTextBox
+            // tagsTextBox
             // 
-            this.tagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.tagsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tagTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tagTextBox.Location = new System.Drawing.Point(12, 416);
-            this.tagTextBox.Name = "tagTextBox";
-            this.tagTextBox.ReadOnly = true;
-            this.tagTextBox.Size = new System.Drawing.Size(760, 22);
-            this.tagTextBox.TabIndex = 3;
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(12, 441);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(152, 16);
-            this.statusLabel.TabIndex = 4;
-            this.statusLabel.Text = "No source selected";
+            this.tagsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tagsTextBox.Location = new System.Drawing.Point(90, 376);
+            this.tagsTextBox.Name = "tagsTextBox";
+            this.tagsTextBox.ReadOnly = true;
+            this.tagsTextBox.Size = new System.Drawing.Size(682, 22);
+            this.tagsTextBox.TabIndex = 5;
             // 
             // hintLabel
             // 
             this.hintLabel.AutoSize = true;
             this.hintLabel.Location = new System.Drawing.Point(12, 37);
             this.hintLabel.Name = "hintLabel";
-            this.hintLabel.Size = new System.Drawing.Size(616, 16);
+            this.hintLabel.Size = new System.Drawing.Size(688, 16);
             this.hintLabel.TabIndex = 1;
-            this.hintLabel.Text = "Press Up / Down to navigate the code snippets, Esc to hide, Enter to google.";
+            this.hintLabel.Text = "Press Up / Down to navigate the code snippets, Esc to hide, Enter to google / sou" +
+    "rce.";
+            // 
+            // authorsTextBox
+            // 
+            this.authorsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.authorsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.authorsTextBox.Location = new System.Drawing.Point(90, 404);
+            this.authorsTextBox.Name = "authorsTextBox";
+            this.authorsTextBox.ReadOnly = true;
+            this.authorsTextBox.Size = new System.Drawing.Size(682, 22);
+            this.authorsTextBox.TabIndex = 7;
+            // 
+            // sourceTextBox
+            // 
+            this.sourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sourceTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sourceTextBox.Location = new System.Drawing.Point(90, 432);
+            this.sourceTextBox.Name = "sourceTextBox";
+            this.sourceTextBox.ReadOnly = true;
+            this.sourceTextBox.Size = new System.Drawing.Size(682, 22);
+            this.sourceTextBox.TabIndex = 9;
+            // 
+            // tagsLabel
+            // 
+            this.tagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tagsLabel.AutoSize = true;
+            this.tagsLabel.Location = new System.Drawing.Point(12, 378);
+            this.tagsLabel.Name = "tagsLabel";
+            this.tagsLabel.Size = new System.Drawing.Size(48, 16);
+            this.tagsLabel.TabIndex = 4;
+            this.tagsLabel.Text = "Tags:";
+            // 
+            // authorsLabel
+            // 
+            this.authorsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.authorsLabel.AutoSize = true;
+            this.authorsLabel.Location = new System.Drawing.Point(12, 406);
+            this.authorsLabel.Name = "authorsLabel";
+            this.authorsLabel.Size = new System.Drawing.Size(72, 16);
+            this.authorsLabel.TabIndex = 6;
+            this.authorsLabel.Text = "Authors:";
+            // 
+            // sourceLabel
+            // 
+            this.sourceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.sourceLabel.AutoSize = true;
+            this.sourceLabel.Location = new System.Drawing.Point(12, 434);
+            this.sourceLabel.Name = "sourceLabel";
+            this.sourceLabel.Size = new System.Drawing.Size(64, 16);
+            this.sourceLabel.TabIndex = 8;
+            this.sourceLabel.Text = "Source:";
+            // 
+            // statusTextBox
+            // 
+            this.statusTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.statusTextBox.Location = new System.Drawing.Point(12, 348);
+            this.statusTextBox.Name = "statusTextBox";
+            this.statusTextBox.ReadOnly = true;
+            this.statusTextBox.Size = new System.Drawing.Size(760, 22);
+            this.statusTextBox.TabIndex = 3;
+            this.statusTextBox.Text = "No code snippets configured.";
             // 
             // CodeTagForm
             // 
@@ -135,9 +195,14 @@ namespace CodeTag
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 466);
             this.ControlBox = false;
+            this.Controls.Add(this.statusTextBox);
+            this.Controls.Add(this.sourceLabel);
+            this.Controls.Add(this.authorsLabel);
+            this.Controls.Add(this.tagsLabel);
+            this.Controls.Add(this.sourceTextBox);
+            this.Controls.Add(this.authorsTextBox);
             this.Controls.Add(this.hintLabel);
-            this.Controls.Add(this.statusLabel);
-            this.Controls.Add(this.tagTextBox);
+            this.Controls.Add(this.tagsTextBox);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.filterTextBox);
             this.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -161,9 +226,14 @@ namespace CodeTag
         private System.Windows.Forms.TextBox filterTextBox;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.RichTextBox codeRichTextBox;
-        private System.Windows.Forms.TextBox tagTextBox;
-        private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.TextBox tagsTextBox;
         private System.Windows.Forms.Label hintLabel;
+        private System.Windows.Forms.TextBox authorsTextBox;
+        private System.Windows.Forms.TextBox sourceTextBox;
+        private System.Windows.Forms.Label tagsLabel;
+        private System.Windows.Forms.Label authorsLabel;
+        private System.Windows.Forms.Label sourceLabel;
+        private System.Windows.Forms.TextBox statusTextBox;
     }
 }
 

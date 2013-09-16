@@ -43,6 +43,12 @@ namespace CodeTag.Data
         [XmlAttribute("name")]
         public string Name { get; set; }
 
+        [XmlAttribute("authors")]
+        public string Authors { get; set; }
+
+        [XmlAttribute("source")]
+        public string Source { get; set; }
+
         [XmlAttribute("syntax")]
         public string Syntax { get; set; }
 

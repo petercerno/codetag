@@ -48,12 +48,10 @@ namespace CodeTag
             {
                 Code = xmlCode.Code.Strip();
                 Tags = xmlCode.Tags.Strip();
-                Syntax = xmlCode.Syntax.Strip();
             }
 
             public string Code;
             public string Tags;
-            public string Syntax;
 
             public override string ToString()
             {
@@ -74,6 +72,8 @@ namespace CodeTag
             {
                 Name = xmlBlock.Name.Strip();
                 Description = xmlBlock.Description.Strip();
+                Authors = xmlBlock.Authors.Strip();
+                Source = xmlBlock.Source.Strip();
                 Syntax = xmlBlock.Syntax.Strip();
                 Tags = xmlBlock.Tags.Strip();
                 Prerequisites = xmlBlock.Prerequisites.Strip();
@@ -81,6 +81,8 @@ namespace CodeTag
 
             public string Name;
             public string Description;
+            public string Authors;
+            public string Source;
             public string Syntax;
             public string Tags;
             public string Prerequisites;
@@ -249,6 +251,8 @@ namespace CodeTag
             var xmlBlock = new XmlBlock
                 {
                     Name = blockItem.Name.Strip(),
+                    Authors =  blockItem.Authors.Strip(),
+                    Source = blockItem.Source.Strip(),
                     Syntax = blockItem.Syntax.Strip(),
                     Tags = blockItem.Tags.Strip(),
                     Description = blockItem.Description.Strip(),
@@ -278,7 +282,6 @@ namespace CodeTag
             var codeItem = node.Tag as CodeItem;
             return new XmlCode
                 {
-                    Syntax = codeItem.Syntax.Strip(),
                     Tags = codeItem.Tags.Strip(),
                     Code = codeItem.Code.Strip()
                 };
@@ -372,9 +375,15 @@ namespace CodeTag
                     descriptionTextBox.Text = string.Empty;
                     descriptionTextBox.Enabled = false;
                     descriptionTextBox.BackColor = DisabledBackColor;
-                    syntaxTextBox.Text = codeItem.Syntax ?? string.Empty;
-                    syntaxTextBox.Enabled = true;
-                    syntaxTextBox.BackColor = EnabledBackColor;
+                    authorsTextBox.Text = string.Empty;
+                    authorsTextBox.Enabled = false;
+                    authorsTextBox.BackColor = DisabledBackColor;
+                    sourceTextBox.Text = string.Empty;
+                    sourceTextBox.Enabled = false;
+                    sourceTextBox.BackColor = DisabledBackColor;
+                    syntaxTextBox.Text = string.Empty;
+                    syntaxTextBox.Enabled = false;
+                    syntaxTextBox.BackColor = DisabledBackColor;
                     tagsTextBox.Text = codeItem.Tags ?? string.Empty;
                     tagsTextBox.Enabled = true;
                     tagsTextBox.BackColor = EnabledBackColor;
@@ -394,6 +403,12 @@ namespace CodeTag
                     descriptionTextBox.Text = blockItem.Description ?? string.Empty;
                     descriptionTextBox.Enabled = true;
                     descriptionTextBox.BackColor = EnabledBackColor;
+                    authorsTextBox.Text = blockItem.Authors ?? string.Empty;
+                    authorsTextBox.Enabled = true;
+                    authorsTextBox.BackColor = EnabledBackColor;
+                    sourceTextBox.Text = blockItem.Source ?? string.Empty;
+                    sourceTextBox.Enabled = true;
+                    sourceTextBox.BackColor = EnabledBackColor;
                     syntaxTextBox.Text = blockItem.Syntax ?? string.Empty;
                     syntaxTextBox.Enabled = true;
                     syntaxTextBox.BackColor = EnabledBackColor;
@@ -407,6 +422,8 @@ namespace CodeTag
                     codeTextBox.Enabled = false;
                     codeTextBox.BackColor = DisabledBackColor;
                 }
+                inheritedAuthorsTextBox.Text = GetInheritedAuthors(selectedNode.Parent);
+                inheritedSourceTextBox.Text = GetInheritedSource(selectedNode.Parent);
                 inheritedSyntaxTextBox.Text = GetInheritedSyntax(selectedNode.Parent);
                 inheritedTagsTextBox.Text = GetInheritedTags(selectedNode.Parent);
                 inheritedPrerequisitesTextBox.Text = GetInheritedPrerequisites(selectedNode.Parent);
@@ -432,6 +449,36 @@ namespace CodeTag
             {
                 ErrorReport.Report(exception);
             }
+        }
+
+        private static string GetInheritedAuthors(TreeNode node)
+        {
+            while (node != null)
+            {
+                if (node.Tag is BlockItem)
+                {
+                    var blockItem = node.Tag as BlockItem;
+                    if (!string.IsNullOrWhiteSpace(blockItem.Authors))
+                        return blockItem.Authors.Trim();
+                }
+                node = node.Parent;
+            }
+            return string.Empty;
+        }
+
+        private static string GetInheritedSource(TreeNode node)
+        {
+            while (node != null)
+            {
+                if (node.Tag is BlockItem)
+                {
+                    var blockItem = node.Tag as BlockItem;
+                    if (!string.IsNullOrWhiteSpace(blockItem.Source))
+                        return blockItem.Source.Trim();
+                }
+                node = node.Parent;
+            }
+            return string.Empty;
         }
 
         private static string GetInheritedSyntax(TreeNode node)
@@ -802,7 +849,6 @@ namespace CodeTag
                 {
                     var codeItem = selectedNode.Tag as CodeItem;
                     codeItem.Code = codeTextBox.Text.Strip();
-                    codeItem.Syntax = syntaxTextBox.Text.Strip();
                     codeItem.Tags = tagsTextBox.Text.Strip();
                     selectedNode.Text = codeItem.ToString();
                 }
@@ -811,6 +857,8 @@ namespace CodeTag
                     var blockItem = selectedNode.Tag as BlockItem;
                     blockItem.Name = nameTextBox.Text.Strip();
                     blockItem.Description = descriptionTextBox.Text.Strip();
+                    blockItem.Authors = authorsTextBox.Text.Strip();
+                    blockItem.Source = sourceTextBox.Text.Strip();
                     blockItem.Syntax = syntaxTextBox.Text.Strip();
                     blockItem.Tags = tagsTextBox.Text.Strip();
                     blockItem.Prerequisites = prerequisitesTextBox.Text.Strip();

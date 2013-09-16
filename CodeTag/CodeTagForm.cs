@@ -93,12 +93,14 @@ namespace CodeTag
                     var filteredCodeSnippet = _filteredCodeSnippets[_filteredCodeSnippetIndex];
                     var contextList = filteredCodeSnippet.GetContextList();
                     codeRichTextBox.Text =
-                        string.Join(Environment.NewLine,
+                        (string.Join(Environment.NewLine,
                                     contextList.Where(c => !string.IsNullOrWhiteSpace(c.Prerequisites))
                                                .Select(c => c.Prerequisites)) +
-                        Environment.NewLine + Environment.NewLine + filteredCodeSnippet.Code;
-                    tagTextBox.Text = string.Join(" ", filteredCodeSnippet.AllTags);
-                    statusLabel.Text = string.Format(
+                        Environment.NewLine + Environment.NewLine + filteredCodeSnippet.Code).Trim();
+                    tagsTextBox.Text = string.Join(" ", filteredCodeSnippet.AllTags);
+                    authorsTextBox.Text = filteredCodeSnippet.Authors;
+                    sourceTextBox.Text = filteredCodeSnippet.Source;
+                    statusTextBox.Text = string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} / {1} {2}", _filteredCodeSnippetIndex + 1, _filteredCodeSnippetCount,
                         string.Join(" / ", contextList.Select(c => c.Name)));
@@ -107,18 +109,22 @@ namespace CodeTag
                 {
                     ErrorReport.Report(exception);
                     codeRichTextBox.Text = string.Empty;
-                    tagTextBox.Text = string.Empty;
+                    tagsTextBox.Text = string.Empty;
+                    authorsTextBox.Text = string.Empty;
+                    sourceTextBox.Text = string.Empty;
                     // ReSharper disable LocalizableElement
-                    statusLabel.Text = "Error";
+                    statusTextBox.Text = "Error";
                     // ReSharper restore LocalizableElement
                 }
             }
             else
             {
                 codeRichTextBox.Text = string.Empty;
-                tagTextBox.Text = string.Empty;
+                tagsTextBox.Text = string.Empty;
+                authorsTextBox.Text = string.Empty;
+                sourceTextBox.Text = string.Empty;
                 // ReSharper disable LocalizableElement
-                statusLabel.Text = "No code snippets found";
+                statusTextBox.Text = "No code snippets found";
                 // ReSharper restore LocalizableElement
             }
             ResumeLayout();
@@ -169,10 +175,13 @@ namespace CodeTag
             {
                 try
                 {
-                    var googleUrl = "http://www.google.com/";
-                    if (!string.IsNullOrWhiteSpace(filterTextBox.Text))
-                        googleUrl = "http://www.google.com/search?q=" + Uri.EscapeDataString(filterTextBox.Text.Trim());
-                    System.Diagnostics.Process.Start(googleUrl);
+                    var targetUri = "http://www.google.com/";
+                    if (!string.IsNullOrWhiteSpace(sourceTextBox.Text) &&
+                        Uri.IsWellFormedUriString(Uri.EscapeUriString(sourceTextBox.Text.Trim()), UriKind.Absolute))
+                        targetUri = Uri.EscapeUriString(sourceTextBox.Text.Trim());
+                    else if (!string.IsNullOrWhiteSpace(filterTextBox.Text))
+                        targetUri = "http://www.google.com/search?q=" + Uri.EscapeDataString(filterTextBox.Text.Trim());
+                    System.Diagnostics.Process.Start(targetUri);
                 }
                 catch (Exception exception)
                 {

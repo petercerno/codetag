@@ -41,14 +41,11 @@ namespace CodeTag.Data
             
         }
 
-        [XmlAttribute("syntax")]
-        public string Syntax { get; set; }
+        [XmlIgnore]
+        public string Code { get; set; }
 
         [XmlAttribute("tags")]
         public string Tags { get; set; }
-
-        [XmlIgnore]
-        public string Code { get; set; }
 
         /// <summary>
         /// Source: http://stackoverflow.com/questions/1379888/how-do-you-serialize-a-string-as-cdata-using-xmlserializer

@@ -38,6 +38,8 @@ namespace CodeTag.Core
         internal CodeContext(
             string name,
             IEnumerable<string> tags,
+            string authors = null,
+            string source = null,
             string syntax = null,
             string description = null,
             string prerequisites = null,
@@ -48,6 +50,8 @@ namespace CodeTag.Core
             if (tags == null)
                 throw new ArgumentException("tags");
             Name = name;
+            Authors = authors ?? (parentContext != null ? parentContext.Authors : string.Empty);
+            Source = source ?? (parentContext != null ? parentContext.Source : string.Empty);
             Syntax = syntax ?? (parentContext != null ? parentContext.Syntax : string.Empty);
             SpecificTags = new SortedSet<string>(tags);
             Description = description ?? string.Empty;
@@ -62,6 +66,16 @@ namespace CodeTag.Core
         /// Name of the code context.
         /// </summary>
         public string Name { get; protected set; }
+
+        /// <summary>
+        /// Authors of the code context.
+        /// </summary>
+        public string Authors { get; protected set; }
+
+        /// <summary>
+        /// Source of the code context.
+        /// </summary>
+        public string Source { get; protected set; }
 
         /// <summary>
         /// Syntax of the code context.
