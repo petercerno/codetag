@@ -1,3 +1,7 @@
+2013-09-16  Peter Cerno <petercerno@gmail.com>
+
+	* Added attributes: authors and source + launch at startup.
+
 2013-08-02  Peter Cerno <petercerno@gmail.com>
 
 	* Added support for Cut, Copy and Paste + several bug fixes.
