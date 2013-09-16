@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<block name="Python" syntax="python" tags="python">
-  <description>http://python.org/</description>
-  <block name="NumPy" tags="numpy">
-    <description>http://www.numpy.org/</description>
+<block name="Python" source="http://python.org/" syntax="python" tags="python">
+  <block name="NumPy" source="http://www.numpy.org/" tags="numpy">
     <prerequisites><![CDATA[from numpy import *]]></prerequisites>
     <block name="Array" tags="array ndarray">
       <code tags="create row"><![CDATA[data = array([0.1, 0.2, 0.3])

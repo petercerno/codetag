@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
-<block name="Python" syntax="python" tags="python">
-  <description>http://python.org/</description>
-  <block name="scikit-learn" tags="scikit learn sklearn">
-    <description>http://scikit-learn.org/stable/</description>
-    <block name="An introduction to machine learning with scikit-learn" tags="load example dataset">
-      <description>http://scikit-learn.org/stable/tutorial/basic/tutorial.html</description>
+<block name="Python" source="http://python.org/" syntax="python" tags="python">
+  <block name="scikit-learn" source="http://scikit-learn.org/stable/" tags="scikit learn sklearn">
+    <block name="An introduction to machine learning with scikit-learn" source="http://scikit-learn.org/stable/tutorial/basic/tutorial.html" tags="load example dataset">
       <prerequisites><![CDATA[from sklearn import datasets
 iris = datasets.load_iris()
 digits = datasets.load_digits()]]></prerequisites>
@@ -46,14 +43,11 @@ clf2.predict(X[0])
 y[0]
 # 0]]></code>
     </block>
-    <block name="Tutorial">
-      <description>http://scikit-learn.org/stable/tutorial/index.html</description>
-      <block name="A tutorial on statistical-learning for scientific data processing" tags="fit predict">
-        <description>http://scikit-learn.org/stable/tutorial/statistical_inference/index.html</description>
+    <block name="Tutorial" source="http://scikit-learn.org/stable/tutorial/index.html">
+      <block name="A tutorial on statistical-learning for scientific data processing" source="http://scikit-learn.org/stable/tutorial/statistical_inference/index.html" tags="fit predict">
         <prerequisites><![CDATA[from numpy import *
 from sklearn import datasets]]></prerequisites>
-        <block name="Statistical learning: the setting and the estimator object in the scikit-learn">
-          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/settings.html</description>
+        <block name="Statistical learning: the setting and the estimator object in the scikit-learn" source="http://scikit-learn.org/stable/tutorial/statistical_inference/settings.html">
           <code tags="iris dataset"><![CDATA[from sklearn import datasets
 iris = datasets.load_iris()
 data = iris.data
@@ -66,8 +60,7 @@ digits.images.shape
 import pylab as pl
 pl.imshow(digits.images[-1], cmap=pl.cm.gray_r)]]></code>
         </block>
-        <block name="Supervised learning: predicting an output variable from high-dimensional observations">
-          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/supervised_learning.html</description>
+        <block name="Supervised learning: predicting an output variable from high-dimensional observations" source="http://scikit-learn.org/stable/tutorial/statistical_inference/supervised_learning.html">
           <block name="Classification" tags="classification iris">
             <prerequisites><![CDATA[iris = datasets.load_iris()
 iris_X = iris.data
@@ -187,8 +180,7 @@ print regr.coef_
 #  -187.19554705   69.38229038  508.66011217   71.84239008]]]></code>
           </block>
         </block>
-        <block name="Model selection: choosing estimators and their parameters" tags="support vector machine svm linear digits">
-          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/model_selection.html</description>
+        <block name="Model selection: choosing estimators and their parameters" source="http://scikit-learn.org/stable/tutorial/statistical_inference/model_selection.html" tags="support vector machine svm linear digits">
           <prerequisites><![CDATA[digits = datasets.load_digits()
 X_digits = digits.data
 y_digits = digits.target
@@ -241,130 +233,53 @@ clf.best_estimator_.gamma
 clf.score(X_digits[1000:], y_digits[1000:])
 # 0.94228356336260977]]></code>
         </block>
-        <block name="Unsupervised learning: seeking representations of the data">
-          <description>http://scikit-learn.org/stable/tutorial/statistical_inference/unsupervised_learning.html</description>
-        </block>
+        <block name="Unsupervised learning: seeking representations of the data" source="http://scikit-learn.org/stable/tutorial/statistical_inference/unsupervised_learning.html" />
       </block>
     </block>
-    <block name="User Guide">
-      <description>http://scikit-learn.org/stable/user_guide.html</description>
-      <block name="Supervised learning">
-        <description>http://scikit-learn.org/stable/supervised_learning.html</description>
-        <block name="Generalized Linear Models">
-          <description>http://scikit-learn.org/stable/modules/linear_model.html</description>
-        </block>
-        <block name="Support Vector Machines">
-          <description>http://scikit-learn.org/stable/modules/svm.html</description>
-        </block>
-        <block name="Stochastic Gradient Descent">
-          <description>http://scikit-learn.org/stable/modules/sgd.html</description>
-        </block>
-        <block name="Nearest Neighbors">
-          <description>http://scikit-learn.org/stable/modules/neighbors.html</description>
-        </block>
-        <block name="Gaussian Processes">
-          <description>http://scikit-learn.org/stable/modules/gaussian_process.html</description>
-        </block>
-        <block name="Partial Least Squares">
-          <description>http://scikit-learn.org/stable/modules/pls.html</description>
-        </block>
-        <block name="Naive Bayes">
-          <description>http://scikit-learn.org/stable/modules/naive_bayes.html</description>
-        </block>
-        <block name="Decision Trees">
-          <description>http://scikit-learn.org/stable/modules/tree.html</description>
-        </block>
-        <block name="Ensemble methods">
-          <description>http://scikit-learn.org/stable/modules/ensemble.html</description>
-        </block>
-        <block name="Multiclass and multilabel algorithms">
-          <description>http://scikit-learn.org/stable/modules/multiclass.html</description>
-        </block>
-        <block name="Feature selection">
-          <description>http://scikit-learn.org/stable/modules/feature_selection.html</description>
-        </block>
-        <block name="Semi-Supervised">
-          <description>http://scikit-learn.org/stable/modules/label_propagation.html</description>
-        </block>
-        <block name="Linear and Quadratic Discriminant Analysis">
-          <description>http://scikit-learn.org/stable/modules/lda_qda.html</description>
-        </block>
-        <block name="Isotonic regression">
-          <description>http://scikit-learn.org/stable/modules/isotonic.html</description>
-        </block>
+    <block name="User Guide" source="http://scikit-learn.org/stable/user_guide.html">
+      <block name="Supervised learning" source="http://scikit-learn.org/stable/supervised_learning.html">
+        <block name="Generalized Linear Models" source="http://scikit-learn.org/stable/modules/linear_model.html" />
+        <block name="Support Vector Machines" source="http://scikit-learn.org/stable/modules/svm.html" />
+        <block name="Stochastic Gradient Descent" source="http://scikit-learn.org/stable/modules/sgd.html" />
+        <block name="Nearest Neighbors" source="http://scikit-learn.org/stable/modules/neighbors.html" />
+        <block name="Gaussian Processes" source="http://scikit-learn.org/stable/modules/gaussian_process.html" />
+        <block name="Partial Least Squares" source="http://scikit-learn.org/stable/modules/pls.html" />
+        <block name="Naive Bayes" source="http://scikit-learn.org/stable/modules/naive_bayes.html" />
+        <block name="Decision Trees" source="http://scikit-learn.org/stable/modules/tree.html" />
+        <block name="Ensemble methods" source="http://scikit-learn.org/stable/modules/ensemble.html" />
+        <block name="Multiclass and multilabel algorithms" source="http://scikit-learn.org/stable/modules/multiclass.html" />
+        <block name="Feature selection" source="http://scikit-learn.org/stable/modules/feature_selection.html" />
+        <block name="Semi-Supervised" source="http://scikit-learn.org/stable/modules/label_propagation.html" />
+        <block name="Linear and Quadratic Discriminant Analysis" source="http://scikit-learn.org/stable/modules/lda_qda.html" />
+        <block name="Isotonic regression" source="http://scikit-learn.org/stable/modules/isotonic.html" />
       </block>
-      <block name="Unsupervised learning">
-        <description>http://scikit-learn.org/stable/unsupervised_learning.html</description>
-        <block name="Gaussian mixture models">
-          <description>http://scikit-learn.org/stable/modules/mixture.html</description>
-        </block>
-        <block name="Manifold learning">
-          <description>http://scikit-learn.org/stable/modules/manifold.html</description>
-        </block>
-        <block name="Clustering">
-          <description>http://scikit-learn.org/stable/modules/clustering.html</description>
-        </block>
-        <block name="Biclustering">
-          <description>http://scikit-learn.org/stable/modules/biclustering.html</description>
-        </block>
-        <block name="Decomposing signals in components">
-          <description>http://scikit-learn.org/stable/modules/decomposition.html</description>
-        </block>
-        <block name="Covariance estimation">
-          <description>http://scikit-learn.org/stable/modules/covariance.html</description>
-        </block>
-        <block name="Novelty and Outlier Detection">
-          <description>http://scikit-learn.org/stable/modules/outlier_detection.html</description>
-        </block>
-        <block name="Hidden Markov Models">
-          <description>http://scikit-learn.org/stable/modules/hmm.html</description>
-        </block>
-        <block name="Density Estimation">
-          <description>http://scikit-learn.org/stable/modules/density.html</description>
-        </block>
-        <block name="Neural network models (unsupervised)">
-          <description>http://scikit-learn.org/stable/modules/neural_networks.html</description>
-        </block>
+      <block name="Unsupervised learning" source="http://scikit-learn.org/stable/unsupervised_learning.html">
+        <block name="Gaussian mixture models" source="http://scikit-learn.org/stable/modules/mixture.html" />
+        <block name="Manifold learning" source="http://scikit-learn.org/stable/modules/manifold.html" />
+        <block name="Clustering" source="http://scikit-learn.org/stable/modules/clustering.html" />
+        <block name="Biclustering" source="http://scikit-learn.org/stable/modules/biclustering.html" />
+        <block name="Decomposing signals in components" source="http://scikit-learn.org/stable/modules/decomposition.html" />
+        <block name="Covariance estimation" source="http://scikit-learn.org/stable/modules/covariance.html" />
+        <block name="Novelty and Outlier Detection" source="http://scikit-learn.org/stable/modules/outlier_detection.html" />
+        <block name="Hidden Markov Models" source="http://scikit-learn.org/stable/modules/hmm.html" />
+        <block name="Density Estimation" source="http://scikit-learn.org/stable/modules/density.html" />
+        <block name="Neural network models (unsupervised)" source="http://scikit-learn.org/stable/modules/neural_networks.html" />
       </block>
-      <block name="Model selection and evaluation">
-        <description>http://scikit-learn.org/stable/model_selection.html</description>
-        <block name="Cross-Validation: evaluating estimator performance">
-          <description>http://scikit-learn.org/stable/modules/cross_validation.html</description>
-        </block>
-        <block name="Grid Search: setting estimator parameters">
-          <description>http://scikit-learn.org/stable/modules/grid_search.html</description>
-        </block>
-        <block name="Pipeline: chaining estimators">
-          <description>http://scikit-learn.org/stable/modules/pipeline.html</description>
-        </block>
-        <block name="FeatureUnion: Combining feature extractors">
-          <description>http://scikit-learn.org/stable/modules/pipeline.html#featureunion-combining-feature-extractors</description>
-        </block>
-        <block name="Model evaluation">
-          <description>http://scikit-learn.org/stable/modules/model_evaluation.html</description>
-        </block>
+      <block name="Model selection and evaluation" source="http://scikit-learn.org/stable/model_selection.html">
+        <block name="Cross-Validation: evaluating estimator performance" source="http://scikit-learn.org/stable/modules/cross_validation.html" />
+        <block name="Grid Search: setting estimator parameters" source="http://scikit-learn.org/stable/modules/grid_search.html" />
+        <block name="Pipeline: chaining estimators" source="http://scikit-learn.org/stable/modules/pipeline.html" />
+        <block name="FeatureUnion: Combining feature extractors" source="http://scikit-learn.org/stable/modules/pipeline.html#featureunion-combining-feature-extractors" />
+        <block name="Model evaluation" source="http://scikit-learn.org/stable/modules/model_evaluation.html" />
       </block>
-      <block name="Dataset transformations">
-        <description>http://scikit-learn.org/stable/data_transforms.html</description>
-        <block name="Feature extraction">
-          <description>http://scikit-learn.org/stable/modules/feature_extraction.html</description>
-        </block>
-        <block name="Preprocessing data">
-          <description>http://scikit-learn.org/stable/modules/preprocessing.html</description>
-        </block>
-        <block name="Kernel Approximation">
-          <description>http://scikit-learn.org/stable/modules/kernel_approximation.html</description>
-        </block>
-        <block name="Random Projection">
-          <description>http://scikit-learn.org/stable/modules/random_projection.html</description>
-        </block>
-        <block name="Pairwise metrics, Affinities and Kernels">
-          <description>http://scikit-learn.org/stable/modules/metrics.html</description>
-        </block>
+      <block name="Dataset transformations" syntax="http://scikit-learn.org/stable/data_transforms.html">
+        <block name="Feature extraction" source="http://scikit-learn.org/stable/modules/feature_extraction.html" />
+        <block name="Preprocessing data" source="http://scikit-learn.org/stable/modules/preprocessing.html" />
+        <block name="Kernel Approximation" source="http://scikit-learn.org/stable/modules/kernel_approximation.html" />
+        <block name="Random Projection" source="http://scikit-learn.org/stable/modules/random_projection.html" />
+        <block name="Pairwise metrics, Affinities and Kernels" source="http://scikit-learn.org/stable/modules/metrics.html" />
       </block>
-      <block name="Dataset loading utilities">
-        <description>http://scikit-learn.org/stable/datasets/index.html</description>
-      </block>
+      <block name="Dataset loading utilities" source="http://scikit-learn.org/stable/datasets/index.html" />
     </block>
   </block>
 </block>
