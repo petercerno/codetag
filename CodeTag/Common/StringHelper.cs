@@ -41,8 +41,8 @@ namespace CodeTag.Common
         public static string Strip(this string str)
         {
             return string.IsNullOrWhiteSpace(str)
-                       ? null
-                       : str.Trim().Replace("\r", "").Replace("\n", Environment.NewLine);
+                ? null
+                : str.Trim().Replace("\r", "").Replace("\n", Environment.NewLine);
         }
     }
 }

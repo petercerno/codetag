@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -146,7 +147,7 @@ namespace CodeTag
                 _notifyIcon = new NotifyIcon(components)
                 {
                     ContextMenuStrip = new ContextMenuStrip(),
-                    Icon = new Icon(IconFileName),
+                    Icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, IconFileName)),
                     Text = DefaultTooltip,
                     Visible = true
                 };
@@ -173,7 +174,7 @@ namespace CodeTag
                     try
                     {
                         var xmlBlock = XmlHelper.DeserializeFromFile<XmlBlock>(checkedCodeSnippetSource);
-                        codeSnippetSourceList.Add(new XmlCodeSnippetSource(xmlBlock));
+                        codeSnippetSourceList.Add(new XmlCodeSnippetSource(xmlBlock, checkedCodeSnippetSource));
                     }
                     catch
                     {

@@ -32,7 +32,7 @@ namespace CodeTag.Core.CodeSnippetSources
     /// <summary>
     /// Composite source of code snippets.
     /// </summary>
-    class CompositeCodeSnippetSource : CodeSnippetSourceBase
+    internal class CompositeCodeSnippetSource : CodeSnippetSourceBase
     {
         /// <summary>
         /// Creates composite source of code snippets.
@@ -41,9 +41,9 @@ namespace CodeTag.Core.CodeSnippetSources
         public CompositeCodeSnippetSource(IEnumerable<CodeSnippetSourceBase> codeSnippetSources)
         {
             _codeSnippets = new List<CodeSnippet>();
-            if (codeSnippetSources != null)
-                foreach (var codeSnippetSource in codeSnippetSources)
-                    _codeSnippets.AddRange(codeSnippetSource.CodeSnippets);
+            if (codeSnippetSources == null) return;
+            foreach (var codeSnippetSource in codeSnippetSources)
+                _codeSnippets.AddRange(codeSnippetSource.CodeSnippets);
         }
 
         private readonly List<CodeSnippet> _codeSnippets;

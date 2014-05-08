@@ -40,6 +40,8 @@ namespace CodeTag.Tests.Core.CodeSnippetSources
         private const string XmlBlockTestTags = "python, datetime";
         private const string XmlBlockTestDescription = "http://pandas.pydata.org/";
         private const string XmlBlockTestPrerequisites = "from datatime import datetime";
+        private const string XmlBlockPath1 = "python1.xml";
+        private const string XmlBlockPath2 = "python2.xml";
 
         private const string XmlSubItem1TestTags = "now";
         private const string XmlSubItem1TestCode = "datetime.now()";
@@ -84,8 +86,8 @@ namespace CodeTag.Tests.Core.CodeSnippetSources
                         }
                 };
 
-            var xmlCodeSnippetSource1 = new XmlCodeSnippetSource(xmlBlock1);
-            var xmlCodeSnippetSource2 = new XmlCodeSnippetSource(xmlBlock2);
+            var xmlCodeSnippetSource1 = new XmlCodeSnippetSource(xmlBlock1, XmlBlockPath1);
+            var xmlCodeSnippetSource2 = new XmlCodeSnippetSource(xmlBlock2, XmlBlockPath2);
             var compositeCodeSnippetSource = new CompositeCodeSnippetSource(
                 new List<CodeSnippetSourceBase>
                     {

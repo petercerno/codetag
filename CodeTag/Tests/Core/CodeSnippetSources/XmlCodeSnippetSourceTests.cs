@@ -39,6 +39,7 @@ namespace CodeTag.Tests.Core.CodeSnippetSources
         private const string XmlBlockTestTags = "python, pandas";
         private const string XmlBlockTestDescription = "http://pandas.pydata.org/";
         private const string XmlBlockTestPrerequisites = "from pandas import Series, DataFrame";
+        private const string XmlBlockPath = "python.xml";
 
         private const string XmlSubBlockTestName = "Date and Time Data Types and Tools";
         private const string XmlSubBlockTestTags = "datetime";
@@ -84,7 +85,7 @@ namespace CodeTag.Tests.Core.CodeSnippetSources
                         }
                 };
 
-            var xmlCodeSnippetSource = new XmlCodeSnippetSource(xmlBlock);
+            var xmlCodeSnippetSource = new XmlCodeSnippetSource(xmlBlock, XmlBlockPath);
             var result = xmlCodeSnippetSource.Search(new SortedSet<string>(new[] {"now"}));
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].Code, "datetime.now()");

@@ -33,7 +33,7 @@ namespace CodeTag.Core
     /// <summary>
     /// Immutable class representing a code snippet with a specific set of tags and context.
     /// </summary>
-    class CodeSnippet
+    internal class CodeSnippet
     {
         internal CodeSnippet(
             string code,
@@ -43,13 +43,14 @@ namespace CodeTag.Core
             if (tags == null)
                 throw new ArgumentException("tags");
             Code = code ?? string.Empty;
+            SpecificTags = new SortedSet<string>(tags);
+            AllTags = context != null
+                ? new SortedSet<string>(SpecificTags.Union(context.AllTags))
+                : new SortedSet<string>(SpecificTags);
             Authors = context != null ? context.Authors : string.Empty;
             Source = context != null ? context.Source : string.Empty;
             Syntax = context != null ? context.Syntax : string.Empty;
-            SpecificTags = new SortedSet<string>(tags);
-            AllTags = context != null
-                          ? new SortedSet<string>(SpecificTags.Union(context.AllTags))
-                          : new SortedSet<string>(SpecificTags);
+            Path = context != null ? context.Path : string.Empty;
             Context = context;
         }
 
@@ -72,6 +73,11 @@ namespace CodeTag.Core
         /// Syntax of the code snippet.
         /// </summary>
         public string Syntax { get; protected set; }
+
+        /// <summary>
+        /// Path of the code snippet.
+        /// </summary>
+        public string Path { get; protected set; }
 
         /// <summary>
         /// Set of specific code snippet tags.

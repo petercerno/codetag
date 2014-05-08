@@ -37,7 +37,7 @@ namespace CodeTag.Data
     {
         internal XmlBlock()
         {
-            
+
         }
 
         [XmlAttribute("name")]
@@ -67,13 +67,10 @@ namespace CodeTag.Data
             get
             {
                 return Prerequisites != null
-                           ? new XmlDocument().CreateCDataSection(Prerequisites)
-                           : null;
+                    ? new XmlDocument().CreateCDataSection(Prerequisites)
+                    : null;
             }
-            set
-            {
-                Prerequisites = value.Value;
-            }
+            set { Prerequisites = value.Value; }
         }
 
         [XmlElement("code")]

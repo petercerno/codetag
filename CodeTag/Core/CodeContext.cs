@@ -33,7 +33,7 @@ namespace CodeTag.Core
     /// <summary>
     /// Immutable class representing a code context (or block).
     /// </summary>
-    class CodeContext
+    internal class CodeContext
     {
         internal CodeContext(
             string name,
@@ -43,6 +43,7 @@ namespace CodeTag.Core
             string syntax = null,
             string description = null,
             string prerequisites = null,
+            string path = null,
             CodeContext parentContext = null)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -50,16 +51,17 @@ namespace CodeTag.Core
             if (tags == null)
                 throw new ArgumentException("tags");
             Name = name;
+            SpecificTags = new SortedSet<string>(tags);
+            AllTags = parentContext != null
+                ? new SortedSet<string>(SpecificTags.Union(parentContext.AllTags))
+                : new SortedSet<string>(SpecificTags);
             Authors = authors ?? (parentContext != null ? parentContext.Authors : string.Empty);
             Source = source ?? (parentContext != null ? parentContext.Source : string.Empty);
             Syntax = syntax ?? (parentContext != null ? parentContext.Syntax : string.Empty);
-            SpecificTags = new SortedSet<string>(tags);
             Description = description ?? string.Empty;
             Prerequisites = prerequisites ?? string.Empty;
+            Path = path ?? (parentContext != null ? parentContext.Path : string.Empty);
             ParentContext = parentContext;
-            AllTags = parentContext != null
-                          ? new SortedSet<string>(SpecificTags.Union(parentContext.AllTags))
-                          : new SortedSet<string>(SpecificTags);
         }
 
         /// <summary>
@@ -101,6 +103,11 @@ namespace CodeTag.Core
         /// Prerequisites of the code context.
         /// </summary>
         public string Prerequisites { get; protected set; }
+
+        /// <summary>
+        /// Path to the code context.
+        /// </summary>
+        public string Path { get; protected set; }
 
         /// <summary>
         /// Parent code context.

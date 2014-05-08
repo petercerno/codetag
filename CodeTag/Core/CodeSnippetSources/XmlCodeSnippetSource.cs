@@ -35,29 +35,30 @@ namespace CodeTag.Core.CodeSnippetSources
     /// <summary>
     /// Xml source of code snippets.
     /// </summary>
-    class XmlCodeSnippetSource : CodeSnippetSourceBase
+    internal class XmlCodeSnippetSource : CodeSnippetSourceBase
     {
         /// <summary>
         /// Creates a code snippet source from an xml block.
         /// </summary>
         /// <param name="xmlBlock">Xml representation of a block of code snippets.</param>
-        public XmlCodeSnippetSource(XmlBlock xmlBlock)
+        /// <param name="path">Path corresponding to the xml block.</param>
+        public XmlCodeSnippetSource(XmlBlock xmlBlock, string path)
         {
             _codeSnippets = new List<CodeSnippet>();
             if (xmlBlock != null)
-                ProcessXmlBlock(xmlBlock, null);
+                ProcessXmlBlock(xmlBlock, null, path);
         }
 
-        private static readonly char[] SplitCharacters = new[] {',', ';', ' ', '\t', '\r', '\n'};
+        private static readonly char[] SplitCharacters = {',', ';', ' ', '\t', '\r', '\n'};
 
         private static IEnumerable<string> Split(string str)
         {
             return string.IsNullOrWhiteSpace(str)
-                       ? new string[0]
-                       : str.Split(SplitCharacters, StringSplitOptions.RemoveEmptyEntries);
+                ? new string[0]
+                : str.Split(SplitCharacters, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private void ProcessXmlBlock(XmlBlock xmlBlock, CodeContext parentContext)
+        private void ProcessXmlBlock(XmlBlock xmlBlock, CodeContext parentContext, string path)
         {
             var context =
                 new CodeContext(
@@ -68,15 +69,14 @@ namespace CodeTag.Core.CodeSnippetSources
                     xmlBlock.Syntax.Strip(),
                     xmlBlock.Description.Strip(),
                     xmlBlock.Prerequisites.Strip(),
+                    path.Strip(),
                     parentContext);
-
             if (xmlBlock.CodeSnippets != null && xmlBlock.CodeSnippets.Length > 0)
                 foreach (var xmlChildCode in xmlBlock.CodeSnippets)
                     ProcessXmlCode(xmlChildCode, context);
-
             if (xmlBlock.Blocks != null && xmlBlock.Blocks.Length > 0)
                 foreach (var xmlChildBlock in xmlBlock.Blocks)
-                    ProcessXmlBlock(xmlChildBlock, context);
+                    ProcessXmlBlock(xmlChildBlock, context, path);
         }
 
         private void ProcessXmlCode(XmlCode xmlCode, CodeContext parentContext)

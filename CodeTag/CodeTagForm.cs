@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CodeTag.Core;
@@ -47,7 +48,7 @@ namespace CodeTag
         }
 
         private readonly Func<CodeSnippetSourceBase> _codeSnippetSourceDelegate;
-        private readonly char[] _splitChars = new[] {',', ';', ' ', '\t', '\r', '\n'};
+        private readonly char[] _splitChars = {',', ';', ' ', '\t', '\r', '\n'};
 
         private List<CodeSnippet> _filteredCodeSnippets;
         private int _filteredCodeSnippetIndex;
@@ -91,6 +92,9 @@ namespace CodeTag
                 try
                 {
                     var filteredCodeSnippet = _filteredCodeSnippets[_filteredCodeSnippetIndex];
+                    var contextPath = !string.IsNullOrWhiteSpace(filteredCodeSnippet.Path)
+                        ? "[" + Path.GetFileName(filteredCodeSnippet.Path) + "]"
+                        : string.Empty;
                     var contextList = filteredCodeSnippet.GetContextList();
                     codeRichTextBox.Text =
                         (string.Join(Environment.NewLine,
@@ -102,8 +106,8 @@ namespace CodeTag
                     sourceTextBox.Text = filteredCodeSnippet.Source;
                     statusTextBox.Text = string.Format(
                         CultureInfo.InvariantCulture,
-                        "{0} / {1} {2}", _filteredCodeSnippetIndex + 1, _filteredCodeSnippetCount,
-                        string.Join(" / ", contextList.Select(c => c.Name)));
+                        "{0} / {1} {2} {3}", _filteredCodeSnippetIndex + 1, _filteredCodeSnippetCount,
+                        contextPath, string.Join(" / ", contextList.Select(c => c.Name)));
                 }
                 catch (Exception exception)
                 {
