@@ -2,9 +2,9 @@
 // ConfigureForm.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -130,7 +130,7 @@ namespace CodeTag
 
                 Configuration.CheckedCodeSnippetSources =
                     (from ListViewItem item in sourceListView.Items
-                     select Tuple.Create(item.SubItems[1].Text, item.Checked)).ToArray();
+                        select Tuple.Create(item.SubItems[1].Text, item.Checked)).ToArray();
 
                 Configuration.Startup = startupCheckBox.Checked;
 
@@ -148,7 +148,7 @@ namespace CodeTag
         {
             try
             {
-                var openFileDialog = new OpenFileDialog { Filter = FileNameFilter, RestoreDirectory = true };
+                var openFileDialog = new OpenFileDialog {Filter = FileNameFilter, RestoreDirectory = true};
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
                 LockLayout = true;
                 var item = sourceListView.
@@ -191,7 +191,7 @@ namespace CodeTag
                 var index = selectedItem.Index;
                 if (index == 0) return;
                 LockLayout = true;
-                var newItem = (ListViewItem)selectedItem.Clone();
+                var newItem = (ListViewItem) selectedItem.Clone();
                 sourceListView.Items.Remove(selectedItem);
                 sourceListView.Items.Insert(index - 1, newItem).Selected = true;
                 LockLayout = false;
@@ -211,7 +211,7 @@ namespace CodeTag
                 var index = selectedItem.Index;
                 if (index == sourceListView.Items.Count - 1) return;
                 LockLayout = true;
-                var newItem = (ListViewItem)selectedItem.Clone();
+                var newItem = (ListViewItem) selectedItem.Clone();
                 sourceListView.Items.Remove(selectedItem);
                 sourceListView.Items.Insert(index + 1, newItem).Selected = true;
                 LockLayout = false;

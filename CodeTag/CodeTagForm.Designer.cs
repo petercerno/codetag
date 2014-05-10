@@ -122,7 +122,7 @@ namespace CodeTag
             this.hintLabel.Name = "hintLabel";
             this.hintLabel.Size = new System.Drawing.Size(688, 16);
             this.hintLabel.TabIndex = 1;
-            this.hintLabel.Text = "Press Up / Down to navigate the code snippets, Esc to hide, Enter to google / sou" +
+            this.hintLabel.Text = "Press Up / Down to navigate, F4 to edit, Esc to hide, Enter to google / go to sou" +
     "rce.";
             // 
             // authorsTextBox

@@ -2,9 +2,9 @@
 // Configuration.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ namespace CodeTag
     /// <summary>
     /// Configuration of the application.
     /// </summary>
-    static class Configuration
+    internal static class Configuration
     {
         /// <summary>
         /// Tag preprocessing enumeration.
@@ -56,7 +56,9 @@ namespace CodeTag
             Substring
         }
 
-        public static readonly TagPreprocess DefaultTagPreprocess = TagPreprocess.LowerCase | TagPreprocess.RemoveSpecialChars;
+        public static readonly TagPreprocess DefaultTagPreprocess = TagPreprocess.LowerCase |
+                                                                    TagPreprocess.RemoveSpecialChars;
+
         public static readonly TagMatch DefaultTagMatch = TagMatch.Prefix;
         public static readonly Tuple<string, bool>[] DefaultCodeSnippetSources = new Tuple<string, bool>[0];
         public static readonly bool DefaultStartup = false;
@@ -73,9 +75,9 @@ namespace CodeTag
                     if (Settings.Default.TagPreprocessing == null) return DefaultTagPreprocess;
                     var tagPreprocessingCollection = Settings.Default.TagPreprocessing.Cast<string>();
                     return tagPreprocessingCollection.Aggregate(
-                        (TagPreprocess)0,
+                        (TagPreprocess) 0,
                         (current, tagPreprocessing) =>
-                        (current | (TagPreprocess)Enum.Parse(typeof(TagPreprocess), tagPreprocessing)));
+                            (current | (TagPreprocess) Enum.Parse(typeof (TagPreprocess), tagPreprocessing)));
                 }
                 catch (Exception exception)
                 {
@@ -89,9 +91,9 @@ namespace CodeTag
                 {
                     var tagPreprocessingCollection = new StringCollection();
                     tagPreprocessingCollection.AddRange(
-                        (from TagPreprocess tagPreprocess in Enum.GetValues(typeof(TagPreprocess))
-                         where (value & tagPreprocess) == tagPreprocess
-                         select tagPreprocess.ToString()).ToArray());
+                        (from TagPreprocess tagPreprocess in Enum.GetValues(typeof (TagPreprocess))
+                            where (value & tagPreprocess) == tagPreprocess
+                            select tagPreprocess.ToString()).ToArray());
                     Settings.Default.TagPreprocessing = tagPreprocessingCollection;
                 }
                 catch (Exception exception)
@@ -112,7 +114,7 @@ namespace CodeTag
                 {
                     var tagMatching = Settings.Default.TagMatching;
                     if (tagMatching == null) return DefaultTagMatch;
-                    return (TagMatch)Enum.Parse(typeof(TagMatch), tagMatching);
+                    return (TagMatch) Enum.Parse(typeof (TagMatch), tagMatching);
                 }
                 catch (Exception exception)
                 {

@@ -2,9 +2,9 @@
 // CompositeCodeSnippetSourceTests.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -53,60 +53,60 @@ namespace CodeTag.Tests.Core.CodeSnippetSources
         public void CompositeCodeSnippetSourceTest()
         {
             var xmlBlock1 = new XmlBlock
+            {
+                Name = XmlBlockTestName,
+                Syntax = XmlBlockTestSyntax,
+                Tags = XmlBlockTestTags,
+                Description = XmlBlockTestDescription,
+                Prerequisites = XmlBlockTestPrerequisites,
+                CodeSnippets = new[]
                 {
-                    Name = XmlBlockTestName,
-                    Syntax = XmlBlockTestSyntax,
-                    Tags = XmlBlockTestTags,
-                    Description = XmlBlockTestDescription,
-                    Prerequisites = XmlBlockTestPrerequisites,
-                    CodeSnippets = new[]
-                        {
-                            new XmlCode
-                                {
-                                    Tags = XmlSubItem1TestTags,
-                                    Code = XmlSubItem1TestCode
-                                }
-                        }
-                };
+                    new XmlCode
+                    {
+                        Tags = XmlSubItem1TestTags,
+                        Code = XmlSubItem1TestCode
+                    }
+                }
+            };
 
             var xmlBlock2 = new XmlBlock
+            {
+                Name = XmlBlockTestName,
+                Syntax = XmlBlockTestSyntax,
+                Tags = XmlBlockTestTags,
+                Description = XmlBlockTestDescription,
+                Prerequisites = XmlBlockTestPrerequisites,
+                CodeSnippets = new[]
                 {
-                    Name = XmlBlockTestName,
-                    Syntax = XmlBlockTestSyntax,
-                    Tags = XmlBlockTestTags,
-                    Description = XmlBlockTestDescription,
-                    Prerequisites = XmlBlockTestPrerequisites,
-                    CodeSnippets = new[]
-                        {
-                            new XmlCode
-                                {
-                                    Tags = XmlSubItem2TestTags,
-                                    Code = XmlSubItem2TestCode
-                                }
-                        }
-                };
+                    new XmlCode
+                    {
+                        Tags = XmlSubItem2TestTags,
+                        Code = XmlSubItem2TestCode
+                    }
+                }
+            };
 
             var xmlCodeSnippetSource1 = new XmlCodeSnippetSource(xmlBlock1, XmlBlockPath1);
             var xmlCodeSnippetSource2 = new XmlCodeSnippetSource(xmlBlock2, XmlBlockPath2);
             var compositeCodeSnippetSource = new CompositeCodeSnippetSource(
                 new List<CodeSnippetSourceBase>
-                    {
-                        xmlCodeSnippetSource1,
-                        xmlCodeSnippetSource2
-                    });
+                {
+                    xmlCodeSnippetSource1,
+                    xmlCodeSnippetSource2
+                });
 
             var result = compositeCodeSnippetSource.Search(new SortedSet<string>(new[] {"constructor"}));
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].Code, "datetime(2013, 5, 7, 12, 0, 0, 0)");
             Assert.AreEqual(result[0].Syntax, "python");
-            Assert.AreEqual(result[0].SpecificTags, new SortedSet<string>(new[] { "constructor" }));
-            Assert.AreEqual(result[0].AllTags, new SortedSet<string>(new[] { "constructor", "datetime", "python" }));
+            Assert.AreEqual(result[0].SpecificTags, new SortedSet<string>(new[] {"constructor"}));
+            Assert.AreEqual(result[0].AllTags, new SortedSet<string>(new[] {"constructor", "datetime", "python"}));
             Assert.AreEqual(result[0].Context.Name, "Date and Time Data Types and Tools");
             Assert.AreEqual(result[0].Context.Prerequisites, "from datatime import datetime");
             Assert.AreEqual(result[0].Context.Description, "http://pandas.pydata.org/");
             Assert.AreEqual(result[0].Context.Syntax, "python");
-            Assert.AreEqual(result[0].Context.SpecificTags, new SortedSet<string>(new[] { "datetime", "python" }));
-            Assert.AreEqual(result[0].Context.AllTags, new SortedSet<string>(new[] { "datetime", "python" }));
+            Assert.AreEqual(result[0].Context.SpecificTags, new SortedSet<string>(new[] {"datetime", "python"}));
+            Assert.AreEqual(result[0].Context.AllTags, new SortedSet<string>(new[] {"datetime", "python"}));
         }
     }
 }

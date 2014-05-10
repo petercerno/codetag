@@ -2,9 +2,9 @@
 // StringHelper.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ namespace CodeTag.Common
     public static class StringHelper
     {
         /// <summary>
-        /// Trims the given input string and replaces Unix newlines.
+        /// Trims the given input string and replaces the Unix newlines.
         /// </summary>
         /// <param name="str">Input string.</param>
         /// <returns>Trimmed string with correct newlines.</returns>

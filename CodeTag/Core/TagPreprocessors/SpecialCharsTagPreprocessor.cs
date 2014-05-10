@@ -2,9 +2,9 @@
 // SpecialCharsTagPreprocessor.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,17 +34,17 @@ namespace CodeTag.Core.TagPreprocessors
     /// <summary>
     /// Removes special chars from tags.
     /// </summary>
-    class SpecialCharsTagPreprocessor : ITagPreprocessor
+    internal class SpecialCharsTagPreprocessor : ITagPreprocessor
     {
         /// <summary>
         /// These characters are removed from tags.
         /// </summary>
-        public Regex SkipPattern = new Regex(@"[_\.\-+]");
-        
+        public static readonly Regex SkipPattern = new Regex(@"[_\.\-+]");
+
         /// <summary>
         /// These characters split a tag into multiple tags.
         /// </summary>
-        public char[] SplitChars = new[] {',', ';', ' ', '\t', '\r', '\n'};
+        public static readonly char[] SplitChars = {',', ';', ' ', '\t', '\r', '\n'};
 
         public ISet<string> Preprocess(ISet<string> tags)
         {

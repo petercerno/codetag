@@ -2,9 +2,9 @@
 // XmlCode.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ namespace CodeTag.Data
     {
         internal XmlCode()
         {
-            
+
         }
 
         [XmlIgnore]
@@ -56,8 +56,8 @@ namespace CodeTag.Data
             get
             {
                 return Code != null
-                           ? new XmlNode[] {new XmlDocument().CreateCDataSection(Code)}
-                           : null;
+                    ? new XmlNode[] {new XmlDocument().CreateCDataSection(Code)}
+                    : null;
             }
             set
             {
@@ -66,11 +66,9 @@ namespace CodeTag.Data
                     Code = null;
                     return;
                 }
-
                 if (value.Length != 1)
                     throw new InvalidOperationException(
                         String.Format("Invalid array length {0}", value.Length));
-
                 Code = value[0].Value;
             }
         }

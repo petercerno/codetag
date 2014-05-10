@@ -2,9 +2,9 @@
 // ErrorReport.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ using System;
 
 namespace CodeTag
 {
-    static class ErrorReport
+    internal static class ErrorReport
     {
         private static readonly string ApologyMessage =
             "We are deeply sorry, but the following error has occured." + Environment.NewLine +
@@ -38,9 +38,9 @@ namespace CodeTag
 
         public static void Report(Exception exception)
         {
-            Report(ApologyMessage + 
-                exception.Message + Environment.NewLine +
-                exception.StackTrace);
+            Report(ApologyMessage +
+                   exception.Message + Environment.NewLine +
+                   exception.StackTrace);
         }
 
         public static void Report(string message)

@@ -2,9 +2,9 @@
 // EditorForm.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,11 +37,11 @@ namespace CodeTag
 {
     public partial class EditorForm : Form
     {
-        class CodeItem
+        private class CodeItem
         {
             public CodeItem()
             {
-                
+
             }
 
             public CodeItem(XmlCode xmlCode)
@@ -56,16 +56,16 @@ namespace CodeTag
             public override string ToString()
             {
                 return string.IsNullOrWhiteSpace(Tags)
-                           ? "Code"
-                           : string.Format(CultureInfo.InvariantCulture, "Code({0})", Tags);
+                    ? "Code"
+                    : string.Format(CultureInfo.InvariantCulture, "Code({0})", Tags);
             }
         }
 
-        class BlockItem
+        private class BlockItem
         {
             public BlockItem()
             {
-                
+
             }
 
             public BlockItem(XmlBlock xmlBlock)
@@ -90,8 +90,8 @@ namespace CodeTag
             public override string ToString()
             {
                 return string.IsNullOrWhiteSpace(Tags)
-                           ? string.Format(CultureInfo.InvariantCulture, "[{0}]", Name ?? string.Empty)
-                           : string.Format(CultureInfo.InvariantCulture, "[{0}]({1})", Name ?? string.Empty, Tags);
+                    ? string.Format(CultureInfo.InvariantCulture, "[{0}]", Name ?? string.Empty)
+                    : string.Format(CultureInfo.InvariantCulture, "[{0}]({1})", Name ?? string.Empty, Tags);
             }
         }
 
@@ -104,6 +104,7 @@ namespace CodeTag
         private static readonly string PrerequisitesSeparator = Environment.NewLine;
         private static readonly Color EnabledBackColor = SystemColors.Window;
         private static readonly Color DisabledBackColor = SystemColors.ControlDark;
+        private static readonly char[] SplitChars = {',', ';', ' ', '\t', '\r', '\n'};
 
         private string _fileName;
         private bool _isModified;
@@ -112,13 +113,21 @@ namespace CodeTag
         private string FileName
         {
             get { return _fileName; }
-            set { _fileName = value; UpdateCaption(); }
+            set
+            {
+                _fileName = value;
+                UpdateCaption();
+            }
         }
 
         private bool IsModified
         {
             get { return _isModified; }
-            set { _isModified = value; UpdateCaption(); }
+            set
+            {
+                _isModified = value;
+                UpdateCaption();
+            }
         }
 
         private bool LockLayout
@@ -137,8 +146,8 @@ namespace CodeTag
             try
             {
                 var fileName = string.IsNullOrWhiteSpace(_fileName)
-                                   ? UntitledFileName
-                                   : Path.GetFileName(_fileName);
+                    ? UntitledFileName
+                    : Path.GetFileName(_fileName);
                 Text = (_isModified ? "*" + fileName : fileName) + CaptionSuffix;
             }
             catch (Exception exception)
@@ -174,6 +183,24 @@ namespace CodeTag
             NewDocument();
         }
 
+        public void EditCodeSnippet(string fileName, string code, string tags)
+        {
+            try
+            {
+                if (FileName != fileName)
+                {
+                    if (PromptSave() == DialogResult.Cancel) return;
+                    Open(fileName);
+                }
+                treeView.SelectedNode = FindNode(code, tags);
+                codeTextBox.Focus();
+            }
+            catch (Exception exception)
+            {
+                ErrorReport.Report(exception);
+            }
+        }
+
         private void NewDocument()
         {
             LockLayout = true;
@@ -181,9 +208,9 @@ namespace CodeTag
             IsModified = false;
             treeView.Nodes.Clear();
             var blockItem = new BlockItem
-                {
-                    Name = RootBlockName
-                };
+            {
+                Name = RootBlockName
+            };
             var rootNode = treeView.Nodes.Add(blockItem.ToString());
             rootNode.Tag = blockItem;
             treeView.SelectedNode = rootNode;
@@ -249,15 +276,15 @@ namespace CodeTag
                 return null;
             var blockItem = node.Tag as BlockItem;
             var xmlBlock = new XmlBlock
-                {
-                    Name = blockItem.Name.Strip(),
-                    Authors =  blockItem.Authors.Strip(),
-                    Source = blockItem.Source.Strip(),
-                    Syntax = blockItem.Syntax.Strip(),
-                    Tags = blockItem.Tags.Strip(),
-                    Description = blockItem.Description.Strip(),
-                    Prerequisites = blockItem.Prerequisites.Strip()
-                };
+            {
+                Name = blockItem.Name.Strip(),
+                Authors = blockItem.Authors.Strip(),
+                Source = blockItem.Source.Strip(),
+                Syntax = blockItem.Syntax.Strip(),
+                Tags = blockItem.Tags.Strip(),
+                Description = blockItem.Description.Strip(),
+                Prerequisites = blockItem.Prerequisites.Strip()
+            };
             var xmlCodeList = new List<XmlCode>();
             var xmlBlockList = new List<XmlBlock>();
             if (node.Nodes.Count > 0)
@@ -281,15 +308,64 @@ namespace CodeTag
                 return null;
             var codeItem = node.Tag as CodeItem;
             return new XmlCode
-                {
-                    Tags = codeItem.Tags.Strip(),
-                    Code = codeItem.Code.Strip()
-                };
+            {
+                Tags = codeItem.Tags.Strip(),
+                Code = codeItem.Code.Strip()
+            };
+        }
+
+        private TreeNode FindNode(string code, string tags)
+        {
+            _bestNode = null;
+            _bestNodeScore = 0.0;
+            FindNode(treeView.Nodes[0], code, tags);
+            return _bestNode;
+        }
+
+        private TreeNode _bestNode;
+        private double _bestNodeScore;
+
+        private void FindNode(TreeNode node, string code, string tags)
+        {
+            var score = 0.0;
+            if (node.Tag is BlockItem)
+            {
+                var blockItem = node.Tag as BlockItem;
+                score = GetTagScore(tags, blockItem.Tags);
+            }
+            else if (node.Tag is CodeItem)
+            {
+                var codeItem = node.Tag as CodeItem;
+                score = GetTagScore(tags, codeItem.Tags);
+                if (!string.IsNullOrWhiteSpace(code) && code.Strip() == codeItem.Code.Strip())
+                    score = 2.0; // Code match! Largest possible score.
+            }
+            if (_bestNode == null || score >= _bestNodeScore)
+            {
+                _bestNode = node;
+                _bestNodeScore = score;
+            }
+            if (node.Nodes.Count == 0) return;
+            foreach (TreeNode childNode in node.Nodes)
+                FindNode(childNode, code, tags);
+        }
+
+        private static double GetTagScore(string tags1, string tags2)
+        {
+            // Jaccard distance: http://en.wikipedia.org/wiki/Jaccard_index
+            if (string.IsNullOrWhiteSpace(tags1) || string.IsNullOrWhiteSpace(tags2)) return 0.0;
+            var tagSet1 = new SortedSet<string>(tags1.Split(SplitChars, StringSplitOptions.RemoveEmptyEntries));
+            var tagSet2 = new SortedSet<string>(tags2.Split(SplitChars, StringSplitOptions.RemoveEmptyEntries));
+            var intersection = new SortedSet<string>(tagSet1);
+            intersection.IntersectWith(tagSet2);
+            var union = new SortedSet<string>(tagSet1);
+            union.UnionWith(tagSet2);
+            return (double) intersection.Count/union.Count;
         }
 
         private DialogResult PromptNewFileName()
         {
-            var saveFileDialog = new SaveFileDialog { Filter = FileNameFilter, RestoreDirectory = true };
+            var saveFileDialog = new SaveFileDialog {Filter = FileNameFilter, RestoreDirectory = true};
             var dialogResult = saveFileDialog.ShowDialog();
             if (dialogResult == DialogResult.OK)
             {
@@ -347,16 +423,21 @@ namespace CodeTag
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             try
             {
-                var xmlBlock = XmlHelper.DeserializeFromFile<XmlBlock>(openFileDialog.FileName);
-                if (xmlBlock != null)
-                    BuildFromXmlBlock(xmlBlock);
-                IsModified = false;
-                FileName = openFileDialog.FileName;
+                Open(openFileDialog.FileName);
             }
             catch (Exception exception)
             {
                 ErrorReport.Report(exception);
             }
+        }
+
+        private void Open(string fileName)
+        {
+            var xmlBlock = XmlHelper.DeserializeFromFile<XmlBlock>(fileName);
+            if (xmlBlock != null)
+                BuildFromXmlBlock(xmlBlock);
+            IsModified = false;
+            FileName = fileName;
         }
 
         private void UpdateSelection()
@@ -630,9 +711,9 @@ namespace CodeTag
                 treeView.SelectedNode = AddNewBlockItem(
                     selectedNode,
                     new BlockItem
-                        {
-                            Name = NewBlockName
-                        });
+                    {
+                        Name = NewBlockName
+                    });
                 LockLayout = false;
             }
             catch (Exception exception)
@@ -652,7 +733,7 @@ namespace CodeTag
                 // ReSharper disable LocalizableElement
                 if (selectedNode.Nodes.Count == 0 ||
                     MessageBox.Show("Do you really want to delete this block including all its children?",
-                                    "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     var selectNode = selectedNode.NextNode ?? selectedNode.PrevNode ?? selectedNode.Parent;
                     treeView.Nodes.Remove(selectedNode);
@@ -796,7 +877,7 @@ namespace CodeTag
                 var parentNode = selectedNode.Parent;
                 var selectedIndex = selectedNode.Index;
                 if (selectedNode.Index == 0) return;
-                var clonedNode = (TreeNode)selectedNode.Clone();
+                var clonedNode = (TreeNode) selectedNode.Clone();
                 selectedNode.Remove();
                 parentNode.Nodes.Insert(selectedIndex - 1, clonedNode);
                 parentNode.TreeView.SelectedNode = clonedNode;
@@ -819,7 +900,7 @@ namespace CodeTag
                 var parentNode = selectedNode.Parent;
                 var selectedIndex = selectedNode.Index;
                 if (selectedNode.Index == parentNode.Nodes.Count - 1) return;
-                var clonedNode = (TreeNode)selectedNode.Clone();
+                var clonedNode = (TreeNode) selectedNode.Clone();
                 selectedNode.Remove();
                 parentNode.Nodes.Insert(selectedIndex + 1, clonedNode);
                 parentNode.TreeView.SelectedNode = clonedNode;

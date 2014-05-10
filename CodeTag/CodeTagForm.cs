@@ -2,9 +2,9 @@
 // CodeTagForm.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,18 +41,23 @@ namespace CodeTag
             InitializeComponent();
         }
 
-        internal CodeTagForm(Func<CodeSnippetSourceBase> codeSnippetSourceDelegate)
+        internal CodeTagForm(
+            Func<CodeSnippetSourceBase> codeSnippetSourceDelegate,
+            Action<string, string, string> editCodeSnippetDelegate)
             : this()
         {
             _codeSnippetSourceDelegate = codeSnippetSourceDelegate;
+            _editCodeSnippetDelegate = editCodeSnippetDelegate;
         }
 
         private readonly Func<CodeSnippetSourceBase> _codeSnippetSourceDelegate;
-        private readonly char[] _splitChars = {',', ';', ' ', '\t', '\r', '\n'};
+        private readonly Action<string, string, string> _editCodeSnippetDelegate;
+        private static readonly char[] SplitChars = {',', ';', ' ', '\t', '\r', '\n'};
 
         private List<CodeSnippet> _filteredCodeSnippets;
         private int _filteredCodeSnippetIndex;
         private int _filteredCodeSnippetCount;
+        private string _lastFilteredCodeSnippetPath;
 
         /// <summary>
         /// Updates code snippets.
@@ -61,14 +66,14 @@ namespace CodeTag
         {
             try
             {
-                if (_codeSnippetSourceDelegate == null) return;
                 _filteredCodeSnippets = null;
                 _filteredCodeSnippetIndex = 0;
                 _filteredCodeSnippetCount = 0;
+                if (_codeSnippetSourceDelegate == null) return;
                 var codeSnippetSource = _codeSnippetSourceDelegate();
                 if (codeSnippetSource != null)
                 {
-                    var tags = filterTextBox.Text.Split(_splitChars, StringSplitOptions.RemoveEmptyEntries);
+                    var tags = filterTextBox.Text.Split(SplitChars, StringSplitOptions.RemoveEmptyEntries);
                     _filteredCodeSnippets = codeSnippetSource.Search(new SortedSet<string>(tags)).ToList();
                     _filteredCodeSnippetCount = _filteredCodeSnippets.Count;
                 }
@@ -79,6 +84,7 @@ namespace CodeTag
                 _filteredCodeSnippets = null;
                 _filteredCodeSnippetIndex = 0;
                 _filteredCodeSnippetCount = 0;
+                _lastFilteredCodeSnippetPath = null;
             }
             UpdateCodeSnippetView();
         }
@@ -86,28 +92,28 @@ namespace CodeTag
         private void UpdateCodeSnippetView()
         {
             SuspendLayout();
-            if (_filteredCodeSnippets != null &&
-                _filteredCodeSnippetIndex < _filteredCodeSnippetCount)
+            if (_filteredCodeSnippets != null && _filteredCodeSnippetIndex < _filteredCodeSnippetCount)
             {
                 try
                 {
                     var filteredCodeSnippet = _filteredCodeSnippets[_filteredCodeSnippetIndex];
-                    var contextPath = !string.IsNullOrWhiteSpace(filteredCodeSnippet.Path)
+                    _lastFilteredCodeSnippetPath = filteredCodeSnippet.Path;
+                    var filteredCodeSnippetPath = !string.IsNullOrWhiteSpace(filteredCodeSnippet.Path)
                         ? "[" + Path.GetFileName(filteredCodeSnippet.Path) + "]"
                         : string.Empty;
                     var contextList = filteredCodeSnippet.GetContextList();
                     codeRichTextBox.Text =
                         (string.Join(Environment.NewLine,
-                                    contextList.Where(c => !string.IsNullOrWhiteSpace(c.Prerequisites))
-                                               .Select(c => c.Prerequisites)) +
-                        Environment.NewLine + Environment.NewLine + filteredCodeSnippet.Code).Trim();
+                            contextList.Where(c => !string.IsNullOrWhiteSpace(c.Prerequisites))
+                                .Select(c => c.Prerequisites)) +
+                         Environment.NewLine + Environment.NewLine + filteredCodeSnippet.Code).Trim();
                     tagsTextBox.Text = string.Join(" ", filteredCodeSnippet.AllTags);
                     authorsTextBox.Text = filteredCodeSnippet.Authors;
                     sourceTextBox.Text = filteredCodeSnippet.Source;
                     statusTextBox.Text = string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} / {1} {2} {3}", _filteredCodeSnippetIndex + 1, _filteredCodeSnippetCount,
-                        contextPath, string.Join(" / ", contextList.Select(c => c.Name)));
+                        filteredCodeSnippetPath, string.Join(" / ", contextList.Select(c => c.Name)));
                 }
                 catch (Exception exception)
                 {
@@ -132,6 +138,27 @@ namespace CodeTag
                 // ReSharper restore LocalizableElement
             }
             ResumeLayout();
+        }
+
+        private void EditCodeSnippet()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_lastFilteredCodeSnippetPath)) return;
+                var code = string.Empty;
+                var tags = filterTextBox.Text;
+                if (_filteredCodeSnippets != null && _filteredCodeSnippetIndex < _filteredCodeSnippetCount)
+                {
+                    var filteredCodeSnippet = _filteredCodeSnippets[_filteredCodeSnippetIndex];
+                    code = filteredCodeSnippet.Code;
+                    tags = string.Join(" ", filteredCodeSnippet.AllTags);
+                }
+                _editCodeSnippetDelegate(_lastFilteredCodeSnippetPath, code, tags);
+            }
+            catch (Exception exception)
+            {
+                ErrorReport.Report(exception);
+            }
         }
 
         private void CodeTagForm_Load(object sender, EventArgs e)
@@ -202,6 +229,10 @@ namespace CodeTag
             {
                 switch (e.KeyCode)
                 {
+                    case Keys.F4:
+                        if (!e.Alt && !e.Control)
+                            EditCodeSnippet();
+                        break;
                     case Keys.Escape:
                         e.Handled = true;
                         Close();

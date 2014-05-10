@@ -2,9 +2,9 @@
 // CustomApplicationContext.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -51,17 +51,18 @@ namespace CodeTag
     /// Tray app code adapted from "Creating Applications with NotifyIcon in Windows Forms", Jessica Fosler,
     /// http://windowsclient.net/articles/notifyiconapplications.aspx
     /// </remarks>
-    class CustomApplicationContext : ApplicationContext
+    internal class CustomApplicationContext : ApplicationContext
     {
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         private const int WmHotkey = 0x312;
 
         // ReSharper disable UnusedMember.Local
-        enum KeyModifier
+        private enum KeyModifier
         {
             None = 0,
             Alt = 1,
@@ -69,6 +70,7 @@ namespace CodeTag
             Shift = 4,
             WinKey = 8
         }
+
         // ReSharper restore UnusedMember.Local
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace CodeTag
             {
                 if (m.Msg == WmHotkey)
                 {
-                    // Handle hotkey message
+                    // Handle hotkey message.
                     _applicationContext.ShowCodeTagForm();
                 }
                 base.WndProc(ref m);
@@ -113,7 +115,7 @@ namespace CodeTag
         private const string DefaultTooltip = "CodeTag via context menu";
 
         /// <summary>
-        /// This class should be created and passed into Application.Run( ... )
+        /// This class should be created and passed into Application.Run( ... ).
         /// </summary>
         public CustomApplicationContext()
         {
@@ -135,8 +137,10 @@ namespace CodeTag
             }
         }
 
-        private System.ComponentModel.IContainer components; // A list of components to dispose when the context is disposed
-        private NotifyIcon _notifyIcon;				         // The icon that sits in the system tray
+        // A list of components to dispose when the context is disposed.
+        private System.ComponentModel.IContainer components;
+
+        private NotifyIcon _notifyIcon; // The icon that sits in the system tray.
         private CompositeCodeSnippetSource _codeSnippetSource;
 
         private void InitializeContext()
@@ -282,49 +286,64 @@ namespace CodeTag
         {
             if (_codeTagForm == null)
             {
-                _codeTagForm = new CodeTagForm(() => _codeSnippetSource);
+                _codeTagForm = new CodeTagForm(
+                    () => _codeSnippetSource,
+                    (fileName, code, tags) =>
+                    {
+                        ShowEditorForm();
+                        _editorForm.EditCodeSnippet(fileName, code, tags);
+                    });
                 _codeTagForm.Closed += delegate { _codeTagForm = null; };
                 _codeTagForm.Show();
                 _codeTagForm.Activate();
             }
-            else { _codeTagForm.Activate(); }
+            else
+            {
+                _codeTagForm.Activate();
+            }
         }
 
-        protected void ShowConfigureForm()
+        private void ShowConfigureForm()
         {
             if (_configureForm == null)
             {
                 _configureForm = new ConfigureForm();
                 _configureForm.Closed += delegate
-                    {
-                        UpdateCodeTagForm(_configureForm.IsConfigurationUpdated);
-                        if (_codeTagForm != null)
-                            _codeTagForm.Activate();
-                        _configureForm = null;
-                    };
+                {
+                    UpdateCodeTagForm(_configureForm.IsConfigurationUpdated);
+                    if (_codeTagForm != null)
+                        _codeTagForm.Activate();
+                    _configureForm = null;
+                };
                 _configureForm.Show();
                 _configureForm.Activate();
             }
-            else { _configureForm.Activate(); }
+            else
+            {
+                _configureForm.Activate();
+            }
         }
 
-        protected void ShowEditorForm()
+        private void ShowEditorForm()
         {
             if (_editorForm == null)
             {
                 _editorForm = new EditorForm();
                 _editorForm.SourceChanged += delegate { UpdateCodeTagForm(true); };
                 _editorForm.Closed += delegate
-                    {
-                        UpdateCodeTagForm(true);
-                        if (_codeTagForm != null)
-                            _codeTagForm.Activate();
-                        _editorForm = null;
-                    };
+                {
+                    UpdateCodeTagForm(true);
+                    if (_codeTagForm != null)
+                        _codeTagForm.Activate();
+                    _editorForm = null;
+                };
                 _editorForm.Show();
                 _editorForm.Activate();
             }
-            else { _editorForm.Activate(); }
+            else
+            {
+                _editorForm.Activate();
+            }
         }
 
         private void UpdateCodeTagForm(bool isConfigurationUpdated)
@@ -344,7 +363,8 @@ namespace CodeTag
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && components != null) { components.Dispose(); }
+            if (disposing && components != null)
+                components.Dispose();
         }
 
         /// <summary>
@@ -363,16 +383,18 @@ namespace CodeTag
         protected override void ExitThreadCore()
         {
             // Before we exit, let forms clean themselves up.
-            if (_codeTagForm != null) { _codeTagForm.Close(); }
-            if (_configureForm != null) { _configureForm.Close(); }
-            if (_editorForm != null) { _editorForm.Close(); }
-
+            if (_codeTagForm != null)
+                _codeTagForm.Close();
+            if (_configureForm != null)
+                _configureForm.Close();
+            if (_editorForm != null)
+                _editorForm.Close();
             // Unregister hotkey
-            if (_hotKeyManager != null) { UnregisterHotKey(_hotKeyManager.Handle, HotKeyId); }
-
+            if (_hotKeyManager != null)
+                UnregisterHotKey(_hotKeyManager.Handle, HotKeyId);
             // Should remove lingering tray icon
-            if (_notifyIcon != null) { _notifyIcon.Visible = false; } 
-
+            if (_notifyIcon != null)
+                _notifyIcon.Visible = false;
             base.ExitThreadCore();
         }
     }

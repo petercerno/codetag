@@ -2,9 +2,9 @@
 // CodeSnippetSourceBase.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ namespace CodeTag.Core
     /// <summary>
     /// Base class for a source of code snippets.
     /// </summary>
-    abstract class CodeSnippetSourceBase : ICodeSnippetSource
+    internal abstract class CodeSnippetSourceBase : ICodeSnippetSource
     {
         /// <summary>
         /// Search the source with a given set of filtering tags.
@@ -50,19 +50,19 @@ namespace CodeTag.Core
             return
                 (TagMatcher != null)
                     ? (from codeSnippet in CodeSnippets
-                       let codeSnippetTags =
-                           TagPreprocessor != null
-                               ? TagPreprocessor.Preprocess(codeSnippet.AllTags)
-                               : codeSnippet.AllTags
-                       where tags.All(filteringTag => codeSnippetTags.Any(tag => TagMatcher(filteringTag, tag)))
-                       select codeSnippet).ToList()
+                        let codeSnippetTags =
+                            TagPreprocessor != null
+                                ? TagPreprocessor.Preprocess(codeSnippet.AllTags)
+                                : codeSnippet.AllTags
+                        where tags.All(filteringTag => codeSnippetTags.Any(tag => TagMatcher(filteringTag, tag)))
+                        select codeSnippet).ToList()
                     : (from codeSnippet in CodeSnippets
-                       let codeSnippetTags =
-                           TagPreprocessor != null
-                               ? TagPreprocessor.Preprocess(codeSnippet.AllTags)
-                               : codeSnippet.AllTags
-                       where tags.IsSubsetOf(codeSnippetTags)
-                       select codeSnippet).ToList();
+                        let codeSnippetTags =
+                            TagPreprocessor != null
+                                ? TagPreprocessor.Preprocess(codeSnippet.AllTags)
+                                : codeSnippet.AllTags
+                        where tags.IsSubsetOf(codeSnippetTags)
+                        select codeSnippet).ToList();
             // ReSharper restore ImplicitlyCapturedClosure
         }
 
@@ -79,6 +79,6 @@ namespace CodeTag.Core
         /// <summary>
         /// List of all code snippets.
         /// </summary>
-        abstract internal IList<CodeSnippet> CodeSnippets { get; }
+        internal abstract IList<CodeSnippet> CodeSnippets { get; }
     }
 }

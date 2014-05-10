@@ -2,9 +2,9 @@
 // SpecialCharsTagPreprocessorTests.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,28 +39,28 @@ namespace CodeTag.Tests.Core.TagPreprocessors
             var tagPreprocessor = new SpecialCharsTagPreprocessor();
 
             var inputTags = new SortedSet<string>(new[]
-                {
-                    "test1_XYZ1",
-                    "test2.XYZ2",
-                    "test3-XYZ3",
-                    "test4+XYZ4",
-                    "test5,XYZ5",
-                    "test6;XYZ6",
-                    "test7 XYZ7",
-                    "test8\tXYZ8"
-                });
+            {
+                "test1_XYZ1",
+                "test2.XYZ2",
+                "test3-XYZ3",
+                "test4+XYZ4",
+                "test5,XYZ5",
+                "test6;XYZ6",
+                "test7 XYZ7",
+                "test8\tXYZ8"
+            });
 
             var outputTags = new SortedSet<string>(new[]
-                {
-                    "test1XYZ1",
-                    "test2XYZ2",
-                    "test3XYZ3",
-                    "test4XYZ4",
-                    "test5", "XYZ5",
-                    "test6", "XYZ6",
-                    "test7", "XYZ7",
-                    "test8", "XYZ8"
-                });
+            {
+                "test1XYZ1",
+                "test2XYZ2",
+                "test3XYZ3",
+                "test4XYZ4",
+                "test5", "XYZ5",
+                "test6", "XYZ6",
+                "test7", "XYZ7",
+                "test8", "XYZ8"
+            });
 
             var resultTags = tagPreprocessor.Preprocess(inputTags);
             Assert.AreEqual(outputTags, resultTags);

@@ -2,9 +2,9 @@
 // BufferedTreeView.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,13 +34,14 @@ namespace CodeTag.Controls
     /// Double buffered TreeView.
     /// Source: http://stackoverflow.com/questions/10362988/treeview-flickering
     /// </summary>
-    class BufferedTreeView : TreeView
+    internal class BufferedTreeView : TreeView
     {
         protected override void OnHandleCreated(EventArgs e)
         {
-            SendMessage(Handle, TVM_SETEXTENDEDSTYLE, (IntPtr)TVS_EX_DOUBLEBUFFER, (IntPtr)TVS_EX_DOUBLEBUFFER);
+            SendMessage(Handle, TVM_SETEXTENDEDSTYLE, (IntPtr) TVS_EX_DOUBLEBUFFER, (IntPtr) TVS_EX_DOUBLEBUFFER);
             base.OnHandleCreated(e);
         }
+
         // Pinvoke:
         // ReSharper disable InconsistentNaming
         private const int TVM_SETEXTENDEDSTYLE = 0x1100 + 44;

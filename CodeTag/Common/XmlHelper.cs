@@ -2,9 +2,9 @@
 // XmlHelper.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -45,18 +45,17 @@ namespace CodeTag.Common
         /// <param name="indent">Value indicating whether to indent elements. The default is false.</param>
         /// <param name="omitXmlDeclaration">Value indicating whether to omit an XML declaration. The default is false.</param>
         /// <returns>Xml representation of the object.</returns>
-        public static string SerializeToString<T>(T value, bool indent = false, bool omitXmlDeclaration = false) where T : class
+        public static string SerializeToString<T>(T value, bool indent = false, bool omitXmlDeclaration = false)
+            where T : class
         {
             if (value == null)
                 return null;
-
             var settings = new XmlWriterSettings
-                {
-                    Encoding = new UnicodeEncoding(false, false),
-                    Indent = indent,
-                    OmitXmlDeclaration = omitXmlDeclaration                    
-                };
-
+            {
+                Encoding = new UnicodeEncoding(false, false),
+                Indent = indent,
+                OmitXmlDeclaration = omitXmlDeclaration
+            };
             using (var textWriter = new StringWriter())
             using (var xmlWriter = XmlWriter.Create(textWriter, settings))
             {
@@ -75,9 +74,7 @@ namespace CodeTag.Common
         {
             if (string.IsNullOrEmpty(xml))
                 return default(T);
-
             var settings = new XmlReaderSettings();
-
             using (var textReader = new StringReader(xml))
             using (var xmlReader = XmlReader.Create(textReader, settings))
                 return DeserializeFromStream<T>(xmlReader);
@@ -117,7 +114,7 @@ namespace CodeTag.Common
         public static void SerializeToStream<T>(dynamic stream, T xml) where T : class
         {
             if (xml == null) return;
-            var serializer = new XmlSerializer(typeof(T), string.Empty);
+            var serializer = new XmlSerializer(typeof (T), string.Empty);
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             serializer.Serialize(stream, xml, ns);
@@ -131,7 +128,7 @@ namespace CodeTag.Common
         /// <returns>Deserialized object.</returns>
         public static T DeserializeFromStream<T>(dynamic stream) where T : class
         {
-            var xmlSerializer = new XmlSerializer(typeof(T), string.Empty);
+            var xmlSerializer = new XmlSerializer(typeof (T), string.Empty);
             return xmlSerializer.Deserialize(stream) as T;
         }
     }

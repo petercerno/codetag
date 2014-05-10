@@ -2,9 +2,9 @@
 // Program.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,15 +38,18 @@ using MutexManager;
 
 namespace CodeTag
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            if (!SingleInstance.Start()) { return; } // Mutex not obtained so exit
+            if (!SingleInstance.Start())
+            {
+                return;
+            } // Mutex not obtained so exit
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             try
@@ -58,7 +61,7 @@ namespace CodeTag
             {
                 // ReSharper disable LocalizableElement
                 MessageBox.Show(ex.Message, "Program Terminated Unexpectedly",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 // ReSharper restore LocalizableElement
             }
             SingleInstance.Stop(); // All finished so release the mutex

@@ -2,9 +2,9 @@
 // ICodeSnippetSource.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ namespace CodeTag.Core
     /// <summary>
     /// Interface for any source of code snippets.
     /// </summary>
-    interface ICodeSnippetSource
+    internal interface ICodeSnippetSource
     {
         /// <summary>
         /// Search the source with a given set of filtering tags.

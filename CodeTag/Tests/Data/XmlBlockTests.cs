@@ -2,9 +2,9 @@
 // XmlBlockTests.cs
 //  
 // Author:
-//       Peter Cerno <petercerno@gmail.com>
+//   Peter Cerno <petercerno@gmail.com>
 // 
-// Copyright (c) 2013 Peter Cerno
+// Copyright (c) 2014 Peter Cerno
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -65,35 +65,35 @@ namespace CodeTag.Tests.Data
         public void XmlBlockSerializeTest()
         {
             var xmlBlock = new XmlBlock
+            {
+                Name = XmlBlockTestName,
+                Syntax = XmlBlockTestSyntax,
+                Tags = XmlBlockTestTags,
+                Description = XmlBlockTestDescription,
+                Prerequisites = XmlBlockTestPrerequisites,
+                Blocks = new[]
                 {
-                    Name = XmlBlockTestName,
-                    Syntax = XmlBlockTestSyntax,
-                    Tags = XmlBlockTestTags,
-                    Description = XmlBlockTestDescription,
-                    Prerequisites = XmlBlockTestPrerequisites,
-                    Blocks = new[]
+                    new XmlBlock
+                    {
+                        Name = XmlSubBlockTestName,
+                        Tags = XmlSubBlockTestTags,
+                        Prerequisites = XmlSubBlockTestPrerequisites,
+                        CodeSnippets = new[]
                         {
-                            new XmlBlock
-                                {
-                                    Name = XmlSubBlockTestName,
-                                    Tags = XmlSubBlockTestTags,
-                                    Prerequisites = XmlSubBlockTestPrerequisites,
-                                    CodeSnippets = new[]
-                                        {
-                                            new XmlCode
-                                                {
-                                                    Tags = XmlSubItem1TestTags,
-                                                    Code = XmlSubItem1TestCode
-                                                },
-                                            new XmlCode
-                                                {
-                                                    Tags = XmlSubItem2TestTags,
-                                                    Code = XmlSubItem2TestCode
-                                                }
-                                        }
-                                }
+                            new XmlCode
+                            {
+                                Tags = XmlSubItem1TestTags,
+                                Code = XmlSubItem1TestCode
+                            },
+                            new XmlCode
+                            {
+                                Tags = XmlSubItem2TestTags,
+                                Code = XmlSubItem2TestCode
+                            }
                         }
-                };
+                    }
+                }
+            };
 
             var xmlBlockString = XmlHelper.SerializeToString(xmlBlock);
             Assert.AreEqual(xmlBlockString, XmlBlockTestString);
